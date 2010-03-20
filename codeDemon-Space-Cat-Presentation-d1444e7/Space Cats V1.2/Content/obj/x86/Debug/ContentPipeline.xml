@@ -170,15 +170,6 @@
       <Time>2010-02-18T23:03:18-05:00</Time>
     </Item>
     <Item>
-      <Source>Images\Missles\Ball1.png</Source>
-      <Name>Images\Missles\Ball1</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\Jesse\Documents\codeDemon-Space-Cat-Presentation-d2\codeDemon-Space-Cat-Presentation-d1444e7\Space Cats V1.2\bin\x86\Debug\Content\Images\Missles\Ball1.xnb</Output>
-      <Time>2010-02-18T23:03:18-05:00</Time>
-    </Item>
-    <Item>
       <Source>Screens\ArrowSelection.JPG</Source>
       <Name>Screens\ArrowSelection</Name>
       <Importer>TextureImporter</Importer>
@@ -546,6 +537,15 @@
       <Options>None</Options>
       <Output>C:\Users\Jesse\Documents\codeDemon-Space-Cat-Presentation-d2\codeDemon-Space-Cat-Presentation-d1444e7\Space Cats V1.2\bin\x86\Debug\Content\Textures\Starscape4.xnb</Output>
       <Time>2010-03-04T19:39:01.7597487-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Images\Ball1.png</Source>
+      <Name>Images\Ball1</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Jesse\Documents\codeDemon-Space-Cat-Presentation-d2\codeDemon-Space-Cat-Presentation-d1444e7\Space Cats V1.2\bin\x86\Debug\Content\Images\Ball1.xnb</Output>
+      <Time>2010-02-18T23:03:18-05:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>

@@ -13,7 +13,7 @@ using Microsoft.Xna.Framework.Storage;
 
 namespace Space_Cats_V1._2
 {
-    class EnemyMissle1 : MissleObject
+    class EnemyMissle1 : MissileObject
     {
         //Instance Variables ---------------------------------------------------------
         private bool isAvailable;
@@ -22,9 +22,9 @@ namespace Space_Cats_V1._2
         public EnemyMissle1(Texture2D MissleSprite, Vector2 playersLocation, SpriteBatch spriteBatch)
             : base(MissleSprite, playersLocation, spriteBatch)
         {
-            this.setVelocity(new Vector2(0, 1));
-            this.setSpeed(5);
-            this.setIsAlive(true);
+            this.Velocity = Vector2.UnitY;
+            this.Speed = 5;
+            this.IsAlive = true;
             this.isAvailable = true;
         }
 

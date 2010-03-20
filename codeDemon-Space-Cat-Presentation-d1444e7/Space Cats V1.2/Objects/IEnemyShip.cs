@@ -16,32 +16,50 @@ namespace Space_Cats_V1._2
     abstract class IEnemyShip : GameObject
     {
         private IArtificialIntelligence z_AI;
+        private int z_health;
+        private int z_damage;
+        public int Health
+        {
+            get { return z_health; }
+            set
+            {
+                z_health = value;
+                IsAlive = (value != 0);
+            }
+        }
+        public int Damage
+        {
+            get { return z_damage; }
+            set { z_damage = value; }
+        }
+        public IArtificialIntelligence AI
+        {
+            get { return z_AI; }
+            set
+            {
+                if (value == null)
+                    z_AI = null;
+                else
+                    z_AI = value.clone();
+            }
+        }
 
         public IEnemyShip(Texture2D loadedSprite)
             : base(loadedSprite)
         {
         }
+
+        virtual public void reduceHealth(int amount)
+        {
+            Health -= amount;
+            if (Health <= 0)
+                IsAlive = false;
+        }
+
         //This method should be calaulated using some sort of AI
         abstract public void AIUpdate(GameTime gameTime);
-
-        //abstract public bool readyToFire();
         abstract public void reset();
-
-        public IArtificialIntelligence getAI()
-        {
-            return z_AI;
-        }
-
         abstract public void returnToPool();
-
-        public void setAI(IArtificialIntelligence ai)
-        {
-            if (ai == null)
-                z_AI = null;
-            else
-                z_AI = ai.clone();
-        }
-
         public void transferAI(IArtificialIntelligence ai)
         {
             z_AI = ai;

@@ -573,7 +573,7 @@ namespace Space_Cats_V1._2
 
             if (z_location==Vector2.Zero)
             {
-                z_location = player.getPosition() - start;
+                z_location = player.Position - start;
                 z_location.Normalize();
                 z_location = z_location * z_speed;
             }

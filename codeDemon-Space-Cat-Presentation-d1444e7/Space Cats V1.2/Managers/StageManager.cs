@@ -71,7 +71,7 @@ namespace Space_Cats_V1._2
                                                this.z_startingPosition);
 
             //Set the player alive
-            this.z_playerShip.setIsAlive(true);
+            this.z_playerShip.IsAlive = true;
 
             //Load the Music
             this.z_MarksSong = this.z_contentManager.Load<Song>("Content\\Audio\\Music\\ATreeFalls");
@@ -83,8 +83,8 @@ namespace Space_Cats_V1._2
 
             //Load Achivement Stuff
             this.z_achivementFail = new GameObject(this.z_contentManager.Load<Texture2D>("Content\\Images\\AchievementFailed"));
-            this.z_achivementFail.setPosition(new Vector2((this.z_viewportRec.Width / 2) - (this.z_achivementFail.getSprite().Width / 2),
-                                                            this.z_viewportRec.Height - 100));
+            this.z_achivementFail.Position = new Vector2((this.z_viewportRec.Width / 2) - (this.z_achivementFail.Sprite.Width / 2),
+                                                            this.z_viewportRec.Height - 100);
             this.z_achievementSound = this.z_contentManager.Load<SoundEffect>("Content\\Audio\\SoundFX\\AchievementSound");
 
             //Load the Settings for the asteroidManager
@@ -115,12 +115,12 @@ namespace Space_Cats_V1._2
             //Check Achivements
             if (this.z_gameTimer > this.z_interval1 && !this.z_achivementFailUnlocked)
             {
-                this.z_achivementFail.setIsAlive(true);
+                this.z_achivementFail.IsAlive = true;
                 this.z_achievementSound.Play();
                 this.z_achivementFailUnlocked = true;
             }
             if (this.z_gameTimer > 21)
-                this.z_achivementFail.setIsAlive(false);
+                this.z_achivementFail.IsAlive = false;
 
 
             //Play Background Music
@@ -153,8 +153,8 @@ namespace Space_Cats_V1._2
 
                 //Input for moving the player's ship on the xbox360
                 //Acceleration needs to be worked on for xbox controller
-                this.z_playerShip.setVelocity(new Vector2(gamePadState.ThumbSticks.Left.X * 0.07f,
-                                                        gamePadState.ThumbSticks.Left.Y * 0.07f));
+                this.z_playerShip.Velocity = new Vector2(gamePadState.ThumbSticks.Left.X * 0.07f,
+                                                        gamePadState.ThumbSticks.Left.Y * 0.07f);
                 this.z_playerShip.upDatePosition();
 
                 //Update Missle Manager
@@ -185,7 +185,7 @@ namespace Space_Cats_V1._2
                 if (z_accelTimerX < 100)
                     z_accelTimerX += (float)gameTime.ElapsedGameTime.Milliseconds;
                 else
-                    if (this.z_playerShip.getPosition().X > 1)
+                    if (this.z_playerShip.Left > 1)
                     {
                         this.z_playerShip.accelerateLeft();
                         z_accelTimerX = 0;
@@ -198,8 +198,7 @@ namespace Space_Cats_V1._2
                 if (z_accelTimerX < 100)
                     z_accelTimerX += (float)gameTime.ElapsedGameTime.Milliseconds;
                 else
-                    if (this.z_playerShip.getPosition().X + this.z_playerShip.getSprite().Width <
-                        this.z_viewportRec.Width - 1)
+                    if (this.z_playerShip.Right < this.z_viewportRec.Width - 1)
                     {
                         this.z_playerShip.accelerateRight();
                         z_accelTimerX = 0;
@@ -212,7 +211,7 @@ namespace Space_Cats_V1._2
                 if (z_accelTimerY < 100)
                     z_accelTimerY += (float)gameTime.ElapsedGameTime.Milliseconds;
                 else
-                    if (this.z_playerShip.getPosition().Y > 1)
+                    if (this.z_playerShip.Top > 1)
                     {
                         this.z_playerShip.accelerateUp();
                         z_accelTimerY = 0;
@@ -224,8 +223,7 @@ namespace Space_Cats_V1._2
                 if (z_accelTimerY < 100)
                     z_accelTimerY += (float)gameTime.ElapsedGameTime.Milliseconds;
                 else
-                    if (this.z_playerShip.getPosition().Y + this.z_playerShip.getSprite().Height <
-                        this.z_viewportRec.Height - 1)
+                    if (this.z_playerShip.Bottom < this.z_viewportRec.Height - 1)
                     {
                         this.z_playerShip.accelerateDown();
                         z_accelTimerY = 0;
@@ -239,7 +237,7 @@ namespace Space_Cats_V1._2
                 ((keyboardState.IsKeyDown(Keys.Left) && (keyboardState.IsKeyDown(Keys.D)))) ||
                 ((keyboardState.IsKeyDown(Keys.A) && (keyboardState.IsKeyDown(Keys.D)))))))
             {
-                this.z_playerShip.setVelocity(new Vector2(0, this.z_playerShip.getVelocity().Y));
+                this.z_playerShip.Velocity = new Vector2(0, this.z_playerShip.Velocity.Y);
                 this.z_playerShip.setIsSlowingDownX(false);
             }
 
@@ -249,7 +247,7 @@ namespace Space_Cats_V1._2
                 ((keyboardState.IsKeyDown(Keys.Down) && (keyboardState.IsKeyDown(Keys.W)))) ||
                 ((keyboardState.IsKeyDown(Keys.W) && (keyboardState.IsKeyDown(Keys.S)))))))
             {
-                this.z_playerShip.setVelocity(new Vector2(this.z_playerShip.getVelocity().X, 0));
+                this.z_playerShip.Velocity = new Vector2(this.z_playerShip.Velocity.X, 0);
                 this.z_playerShip.setIsSlowingDownY(false);
             }
 
@@ -286,7 +284,7 @@ namespace Space_Cats_V1._2
             this.z_playerShip.playerShipUpdate(gameTime, this.z_viewportRec);
 
             //Get if the player is dead
-            if (this.z_playerShip.getLives() <= 0)
+            if (this.z_playerShip.Lives <= 0)
                 this.z_isGameOver = true;
 
 
@@ -301,8 +299,6 @@ namespace Space_Cats_V1._2
             //End of Keyboard Updates
             this.z_previousKeyboardState = keyboardState;
 #endif
-
-
 
         }
 
@@ -320,19 +316,19 @@ namespace Space_Cats_V1._2
             this.z_backgroundManager.Draw(this.z_spriteBatch);
 
             //Draw Enemies from EnemyManager
-            this.z_enemyManager.draw();
+            this.z_enemyManager.draw(this.z_spriteBatch, gameTime);
 
             //Draw any asteroids from AsteroidManager
             this.z_asteroidManager.drawAsteroids();
 
             //Draw Player Ship
-            this.z_playerShip.draw(this.z_spriteBatch, gameTime);
+            this.z_playerShip.Draw(this.z_spriteBatch, gameTime);
 
             //Draw Fonts
             this.z_spriteBatch.DrawString(this.z_timerFont, "Time: " + Math.Round(z_gameTimer, 2),
                                           new Vector2(.01f * this.z_viewportRec.Width, .01f * this.z_viewportRec.Height),
                                           Color.Yellow);
-            this.z_spriteBatch.DrawString(this.z_livesFont, "Lives: " + this.z_playerShip.getLives(),
+            this.z_spriteBatch.DrawString(this.z_livesFont, "Lives: " + this.z_playerShip.Lives,
                                           new Vector2(.01f * this.z_viewportRec.Width, .05f * this.z_viewportRec.Height),
                                           Color.White);
             this.z_spriteBatch.DrawString(this.z_livesFont, "Score: " + this.z_playerShip.score,
@@ -341,16 +337,16 @@ namespace Space_Cats_V1._2
             this.z_spriteBatch.DrawString(this.z_livesFont, "Enemies: " + EnemyManager.totalEnemyCount(),
                                           new Vector2(.01f * this.z_viewportRec.Width, .15f * this.z_viewportRec.Height),
                                           Color.Red);
-            this.z_spriteBatch.DrawString(this.z_livesFont, "Missiles: " + MissleManager.instanceOf.getTotalMissileCount(),
+            this.z_spriteBatch.DrawString(this.z_livesFont, "Missiles: " + MissleManager.z_instanceOf.getTotalMissileCount(),
                                           new Vector2(.01f * this.z_viewportRec.Width, .2f * this.z_viewportRec.Height),
                                           Color.Aquamarine);
 
             //Draw any achivements
-            if (this.z_achivementFail.isAlive())
-                this.z_spriteBatch.Draw(this.z_achivementFail.getSprite(), this.z_achivementFail.getPosition(), Color.White);
+            if (this.z_achivementFail.IsAlive)
+                this.z_spriteBatch.Draw(this.z_achivementFail.Sprite, this.z_achivementFail.Position, Color.White);
 
             //Draw Missles
-            this.z_missleManager.MissleManagerDrawAllMissles();
+            this.z_missleManager.MissleManagerDrawAllMissles(this.z_spriteBatch, gameTime);
         }
 
 
@@ -361,7 +357,7 @@ namespace Space_Cats_V1._2
             
             this.z_enemyManager.resetAllEnemies();
             z_achivementFailUnlocked = false;
-            this.z_achivementFail.setIsAlive(false);
+            this.z_achivementFail.IsAlive = false;
             this.z_missleManager.reset();
             this.z_playerShip.reset();
 

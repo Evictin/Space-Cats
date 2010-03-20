@@ -25,39 +25,29 @@ namespace Space_Cats_V1._2
 
 
         //Instance Variables ---------------------------------------------------------
-        private List<MissleObject> z_FriendlyMissles;
-        private List<MissleObject> z_EnemyMissles;
+        private List<MissileObject> z_missles;
         private Rectangle z_viewPort;
-        private Texture2D z_friendlyMissleSprite1;
-        private SoundEffect z_fireSound1;
         private List<IEnemyShip> z_EnemyShipList;
         //The Enemy Manager
         private EnemyManager z_enemyManager;
-        private BulletPool1 z_bulletPool;
-        public static MissleManager instanceOf;
-        public Vector2 missleStartPosition;
+        public static MissleManager z_instanceOf;
         private PlayerShip z_playerShip;
-        private EnemyBulletPool1 z_enemyBulletPool1;
 
-        public static MissleManager getCurrent()
+        public static MissleManager getInstance()
         {
-            return instanceOf;
+            return z_instanceOf;
         }
 
         //Constructor ----------------------------------------------------------------
         public MissleManager(Rectangle newViewPort, ContentManager content, SoundEffect sound, SpriteBatch spriteBatch, PlayerShip playerShip)
         {
             this.z_playerShip = playerShip;
-            this.z_enemyManager = EnemyManager.getInstance(content, spriteBatch, newViewPort);
-            this.z_FriendlyMissles = new List<MissleObject>();
-            this.z_EnemyMissles = new List<MissleObject>();
             this.z_viewPort = newViewPort;
-            this.z_friendlyMissleSprite1 = content.Load<Texture2D>("Content\\Images\\Missles\\Ball1");
-            this.z_fireSound1 = sound;
-            this.z_EnemyShipList = new List<IEnemyShip>();
-            this.z_bulletPool = new BulletPool1(content, this.z_viewPort, this.z_playerShip, spriteBatch);
-            this.z_enemyBulletPool1 = new EnemyBulletPool1(content, this.z_viewPort, spriteBatch);
-            instanceOf = this;
+            this.z_enemyManager = EnemyManager.getInstance(content, spriteBatch, newViewPort);
+            this.z_EnemyShipList = z_enemyManager.getEnemiesList();
+            this.z_missles = new List<MissileObject>();
+            PlayerMissile1.Initialize(content);
+            z_instanceOf = this;
         }
 
         //Accessor Methods -----------------------------------------------------------
@@ -65,30 +55,14 @@ namespace Space_Cats_V1._2
         {
             return this.z_viewPort;
         }
-        public Texture2D getFriendlyMissleSprite1()
-        {
-            return this.z_friendlyMissleSprite1;
-        }
-        public SoundEffect getFireSound1()
-        {
-            return this.z_fireSound1;
-        }
         public int getTotalMissileCount()
         {
-            return z_FriendlyMissles.Count + z_EnemyMissles.Count;
+            return z_missles.Count;
         }
         //Mutator Methods ------------------------------------------------------------
         public void setViewPort(Rectangle viewPort)
         {
             this.z_viewPort = viewPort;
-        }
-        public void setFireSound1(SoundEffect newSound)
-        {
-            this.z_fireSound1 = newSound;
-        }
-        public void setFirendlyMissle1(Texture2D newSprite)
-        {
-            this.z_friendlyMissleSprite1 = newSprite;
         }
 
         //Update and Draw Methods --------------------------------------------------------------
@@ -97,7 +71,6 @@ namespace Space_Cats_V1._2
         public void MissleManagerUpdateFriendlyKeyboard(KeyboardState currentKeyState, KeyboardState previousKeyState,
                                                         PlayerShip playerShip, SpriteBatch spriteBatch)
         {
-            this.z_EnemyShipList = this.z_enemyManager.getEnemiesList();
             //The Alogrithm:
             //Determine if the player shot a missle
             //If so then add it the List
@@ -105,29 +78,15 @@ namespace Space_Cats_V1._2
             //While checking each missle, make sure it hasn't left the screen or collided with something
             //If so, remove it from the list
 
-            if (currentKeyState.IsKeyDown(Keys.Space) && previousKeyState.IsKeyUp(Keys.Space) && playerShip.isAlive())
+            if (currentKeyState.IsKeyDown(Keys.Space) && previousKeyState.IsKeyUp(Keys.Space) && playerShip.IsAlive)
             {
-                //Play a fire sound
-                this.z_fireSound1.Play(.2f, 0, 0);
-
                 //Create and add a new Missle Object
-                this.z_FriendlyMissles.Add(this.z_bulletPool.getNextAvailableEnemy());
-                /*
-                this.z_FriendlyMissles.Add(new PlayerMissle1(this.z_friendlyMissleSprite1,
-                                                             new Vector2(playerShip.getPosition().X
-                                                                         + playerShip.getSprite().Width / 2
-                                                                         - this.z_friendlyMissleSprite1.Width / 2,
-                                                                 playerShip.getPosition().Y), spriteBatch));
-                 * */
+                this.z_missles.Add(PlayerMissile1.GetNextMissile(new Vector2(playerShip.Position.X, playerShip.Top)));
             }
 
-            this.MissleManagerUpdateEnemy();
-
-            //If List is empty, nothing to update, exit this update function
-            if (this.z_FriendlyMissles.Count <= 0)
-                return;
-
-            this.UpdateFriendlyList();
+            //If List is not empty, update everything
+            if (this.z_missles.Count > 0)
+                this.UpdateFriendlyList(spriteBatch);
             
         }
 
@@ -139,73 +98,57 @@ namespace Space_Cats_V1._2
             //For the simple collision checking
             //this.z_EnemyShipList = enemyList;
             //Same Algorithm as before, but with a gamePad controller [Fire = right Trigger]
-            if (currentPadState.Triggers.Right >= .5f && previousPadState.Triggers.Right == 0 && playerShip.isAlive())
+            if (currentPadState.Triggers.Right >= .5f && previousPadState.Triggers.Right == 0 && playerShip.IsAlive)
             {
-                this.z_FriendlyMissles.Add(new PlayerMissle1(this.z_friendlyMissleSprite1,
-                                                             new Vector2(playerShip.getPosition().X
-                                                                         + playerShip.getSprite().Width / 2
-                                                                         - this.z_friendlyMissleSprite1.Width / 2,
-                                                                 playerShip.getPosition().Y), spriteBatch));
-
-                //Play a fire sound
-                this.z_fireSound1.Play(.2f, 0, 0);
+                this.z_missles.Add(PlayerMissile1.GetNextMissile(new Vector2(playerShip.Position.X, playerShip.Top)));
             }
 
-            this.MissleManagerUpdateEnemy();
-            //If List is empty, nothing to update, exit this update function
-            if (this.z_FriendlyMissles.Count <= 0)
-                return;
-
-            this.UpdateFriendlyList();
-           
-
+            //If List is not empty, update everything
+            if (this.z_missles.Count > 0)
+                this.UpdateFriendlyList(spriteBatch);
 
         }
 
 
         //Helper Method for Updating all Missles in the FriendlyMissles List
-        private void UpdateFriendlyList()
+        private void UpdateFriendlyList(SpriteBatch spriteBatch)
         {
-            AsteroidManager asteroidManager = AsteroidManager.getInstance();
-
-            for (int i = 0; i < this.z_FriendlyMissles.Count; i++)
+            for (int i = 0; i < this.z_missles.Count; i++)
             {
-                if (this.z_viewPort.Contains(this.z_FriendlyMissles[i].getHitRec()))
+                if (this.z_viewPort.Contains(new Point((int)z_missles[i].Position.X,(int) z_missles[i].Position.Y)))
                 {
-                    this.z_FriendlyMissles[i].upDateMissle();
+                    this.z_missles[i].upDateMissle();
                 }
                 else
                 {
-                    this.z_FriendlyMissles[i].setIsAlive(false);
-                    if (this.z_FriendlyMissles[i] is PlayerMissle1)
-                    {
-
-                        ((PlayerMissle1)this.z_FriendlyMissles[i]).setIsAvailable(true);
-                    }
-                    
-                    this.z_FriendlyMissles.Remove(this.z_FriendlyMissles[i]);
+                    this.z_missles[i].returnToPool();
+                    this.z_missles.RemoveAt(i);
                     //Since a Missle was just removed from the list, ensure i is poitning to the next missle
                     i--;
                     continue;
                 }
 
-                //Do some simple colision checking
+                //Do some simple collision checking
 
-                for (int j = 0; j < this.z_EnemyShipList.Count; j++)
+                foreach (IEnemyShip enemy in this.z_EnemyShipList)
                 {
-                    if (this.z_FriendlyMissles[i].getHitRec().Intersects(this.z_EnemyShipList[j].getHitRec()))
+                    if (enemy.CanTakeDamage)
                     {
-                        this.z_playerShip.score++;
-                        this.z_FriendlyMissles[i].setIsAlive(false);
-                        this.z_FriendlyMissles.Remove(this.z_FriendlyMissles[i]);
-                        i--;
+                        if (this.z_missles[i].HitCircle.Intersects(enemy.HitCircle))
+                        {
+                            enemy.reduceHealth(this.z_missles[i].Damage);
+                            if (!enemy.IsAlive)
+                            {
+                                this.z_playerShip.score += enemy.PointValue;
+                            }
 
-
-                        this.z_EnemyShipList[j].setIsAlive(false);
-                        //this.z_EnemyShipList.RemoveAt(j);
-                        if (i < 0)
-                            break;
-                        continue;
+                            this.z_missles[i].returnToPool();
+                            this.z_missles.Remove(this.z_missles[i]);
+                            i--;
+                            if (i < 0)
+                                break;
+                            continue;
+                        }
                     }
                 }
 
@@ -213,94 +156,22 @@ namespace Space_Cats_V1._2
             }
         }
 
-        public void fireEnemyMissle(Vector2 position, Texture2D sprite)
-        {
-            this.z_EnemyMissles.Add(this.z_enemyBulletPool1.FireNextAvailableMissle(position, sprite));
-            //Play a fire sound
-            this.z_fireSound1.Play(.2f, 0, 0);
-        }
-
-        //Main Update Method for enemy Missles
-        public void MissleManagerUpdateEnemy()
-        {
-            for (int i = 0; i < this.z_EnemyMissles.Count; i++)
-            {
-                this.z_EnemyMissles[i].upDateMissle();
-                if (!this.z_viewPort.Contains((int) this.z_EnemyMissles[i].getPosition().X,(int) this.z_EnemyMissles[i].getPosition().Y))
-                {
-                    if (this.z_EnemyMissles[i] is EnemyMissle1)
-                        ((EnemyMissle1)this.z_EnemyMissles[i]).setIsAvailable(true);
-                    this.z_EnemyMissles.RemoveAt(i);
-                    i--;
-
-                }
-                else if (this.z_playerShip.getHitRec().Intersects(this.z_EnemyMissles[i].getHitRec()))
-                {
-                    this.z_playerShip.setHealth(0);
-                    if (this.z_EnemyMissles[i] is EnemyMissle1)
-                        ((EnemyMissle1)this.z_EnemyMissles[i]).setIsAvailable(true);
-                    this.z_EnemyMissles.RemoveAt(i);
-                    i--;
-                }
-
-            }
-        }
-
         //Main Draw Method for drawing all missles
-        public void MissleManagerDrawAllMissles()
+        public void MissleManagerDrawAllMissles(SpriteBatch spriteBatch, GameTime gameTime)
         {
-            if (this.z_FriendlyMissles.Count > 0)
+            //That means there is something to draw in the missle list
+            foreach (MissileObject missle in this.z_missles)
             {
-                
-                //That means there is something to draw in the missle list
-                foreach (MissleObject missle in this.z_FriendlyMissles)
-                {
-                    missle.DrawMissle();
-                }
+                missle.Draw(spriteBatch, gameTime);
             }
-
-            if (this.z_EnemyMissles.Count > 0)
-            {
-                //That means there is something to draw in the missle list
-                foreach (MissleObject missle in this.z_EnemyMissles)
-                    missle.DrawMissle();
-            }
-
         }
-
-
 
         public void reset()
         {
-            int temp = this.z_EnemyMissles.Count;
-            for (int i = 0; i < temp; i++)
-            {
-                if (this.z_EnemyMissles[i] is EnemyMissle1)
-                    ((EnemyMissle1)this.z_EnemyMissles[i]).setIsAvailable(true);
-                //this.z_EnemyMissles.RemoveAt(i);
-            }
-            temp = this.z_FriendlyMissles.Count;
-            for (int i = 0; i < temp; i++)
-            {
-                if (this.z_FriendlyMissles[i] is PlayerMissle1)
-                {
-                    ((PlayerMissle1)this.z_FriendlyMissles[i]).setIsAvailable(true);
-                }
-                //this.z_FriendlyMissles.RemoveAt(i);
-            }
-            this.z_FriendlyMissles = new List<MissleObject>();
-            this.z_EnemyMissles = new List<MissleObject>();
+            foreach (MissileObject missile in z_missles)
+                missile.returnToPool();
+            this.z_missles.Clear();
         }
-
-
-
-
-
-
-
-
-
-
 
     }
 }

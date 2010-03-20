@@ -281,7 +281,6 @@ C:\Users\Jesse\Documents\codeDemon-Space-Cat-Presentation-d2\codeDemon-Space-Cat
 C:\Users\Jesse\Documents\codeDemon-Space-Cat-Presentation-d2\codeDemon-Space-Cat-Presentation-d1444e7\Space Cats V1.2\bin\x86\Debug\Content\Images\Asteroids\Asteroid4.xnb
 C:\Users\Jesse\Documents\codeDemon-Space-Cat-Presentation-d2\codeDemon-Space-Cat-Presentation-d1444e7\Space Cats V1.2\bin\x86\Debug\Content\Images\Asteroids\Asteroid5.xnb
 C:\Users\Jesse\Documents\codeDemon-Space-Cat-Presentation-d2\codeDemon-Space-Cat-Presentation-d1444e7\Space Cats V1.2\bin\x86\Debug\Content\Images\EnemyShips\EnemyShip1.xnb
-C:\Users\Jesse\Documents\codeDemon-Space-Cat-Presentation-d2\codeDemon-Space-Cat-Presentation-d1444e7\Space Cats V1.2\bin\x86\Debug\Content\Images\Missles\Ball1.xnb
 C:\Users\Jesse\Documents\codeDemon-Space-Cat-Presentation-d2\codeDemon-Space-Cat-Presentation-d1444e7\Space Cats V1.2\bin\x86\Debug\Content\Screens\ArrowSelection.xnb
 C:\Users\Jesse\Documents\codeDemon-Space-Cat-Presentation-d2\codeDemon-Space-Cat-Presentation-d1444e7\Space Cats V1.2\bin\x86\Debug\Content\Screens\ConfirmationMenu.xnb
 C:\Users\Jesse\Documents\codeDemon-Space-Cat-Presentation-d2\codeDemon-Space-Cat-Presentation-d1444e7\Space Cats V1.2\bin\x86\Debug\Content\Screens\GameOverScreen.xnb
@@ -337,3 +336,5 @@ C:\Users\Jesse\Documents\codeDemon-Space-Cat-Presentation-d2\codeDemon-Space-Cat
 C:\Users\Jesse\Documents\codeDemon-Space-Cat-Presentation-d2\codeDemon-Space-Cat-Presentation-d1444e7\Space Cats V1.2\bin\x86\Debug\Content\Textures\Starscape4.xnb
 C:\Users\Jesse\Documents\codeDemon-Space-Cat-Presentation-d2\codeDemon-Space-Cat-Presentation-d1444e7\Space Cats V1.2\bin\x86\Debug\AI\Enemy1Path.ai
 C:\Users\Jesse\Documents\codeDemon-Space-Cat-Presentation-d2\codeDemon-Space-Cat-Presentation-d1444e7\Space Cats V1.2\bin\x86\Debug\AI\Mission 2.msn
+C:\Users\Jesse\Documents\codeDemon-Space-Cat-Presentation-d2\codeDemon-Space-Cat-Presentation-d1444e7\Space Cats V1.2\bin\x86\Debug\Content\Images\Ball1.xnb
+C:\Users\Jesse\Documents\codeDemon-Space-Cat-Presentation-d2\codeDemon-Space-Cat-Presentation-d1444e7\Space Cats V1.2\bin\x86\Debug\Content\Images\Ball1.png

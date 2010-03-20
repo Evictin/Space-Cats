@@ -33,15 +33,15 @@ namespace Space_Cats_V1._2
         public void loadImage1(Texture2D image)
         {
             this.z_backgroundImage1 = new ScrollingBackground(image);
-            this.z_backgroundImage1.setPosition(new Vector2(0f, 0f));
-            this.z_backgroundImage1.setIsAlive(true);
+            this.z_backgroundImage1.Position = Vector2.Zero;
+            this.z_backgroundImage1.IsAlive = true;
         }
 
         public void loadImage2(Texture2D image)
         {
             this.z_backgroundImage2 = new ScrollingBackground(image);
-            this.z_backgroundImage2.setPosition(new Vector2(0f, 0f - this.z_viewPort.Height));
-            this.z_backgroundImage2.setIsAlive(true);
+            this.z_backgroundImage2.Position = new Vector2(0f, 0f - this.z_viewPort.Height);
+            this.z_backgroundImage2.IsAlive = true;
         }
 
 
@@ -49,20 +49,20 @@ namespace Space_Cats_V1._2
         public void Update()
         {
             //Update the Scrolling Background Images
-            if (this.z_backgroundImage1.getPosition().Y >= this.z_viewPort.Height)
+            if (this.z_backgroundImage1.Position.Y >= this.z_viewPort.Height)
             {
                 //Then it is off of the stage, reset it back at the top
-                this.z_backgroundImage1.setPosition(new Vector2(0, 0.0f - this.z_viewPort.Height));
+                this.z_backgroundImage1.Position = new Vector2(0, 0.0f - this.z_viewPort.Height);
                 //this.z_backgroundImage1.upDatePosition();
             }
-            if (this.z_backgroundImage2.getPosition().Y >= this.z_viewPort.Height)
+            if (this.z_backgroundImage2.Position.Y >= this.z_viewPort.Height)
             {
                 //Then it is off of the stage, reset it back at the top
-                this.z_backgroundImage2.setPosition(new Vector2(0, 0.0f - this.z_viewPort.Height));
+                this.z_backgroundImage2.Position = new Vector2(0, 0.0f - this.z_viewPort.Height);
                 //this.z_backgroundImage2.upDatePosition();
             }
             //The order of the upDatePosition Matters I think
-            if (this.z_backgroundImage1.getPosition().Y > this.z_backgroundImage2.getPosition().Y)
+            if (this.z_backgroundImage1.Position.Y > this.z_backgroundImage2.Position.Y)
             {
                 this.z_backgroundImage2.upDatePosition();
                 this.z_backgroundImage1.upDatePosition();
@@ -80,13 +80,13 @@ namespace Space_Cats_V1._2
             if (this.z_backgroundImage1 == null || this.z_backgroundImage2 == null)
                 return;
             //Draw Background images
-            if (this.z_backgroundImage1.isAlive())
-                spriteBatch.Draw(this.z_backgroundImage1.getSprite(), this.z_backgroundImage1.getPosition(), null,
-                    Color.White, 0, new Vector2(0, 0), this.z_backgroundImage1.Scale(this.z_viewPort)
+            if (this.z_backgroundImage1.IsAlive)
+                spriteBatch.Draw(this.z_backgroundImage1.Sprite, this.z_backgroundImage1.Position, null,
+                    Color.White, 0, Vector2.Zero, this.z_backgroundImage1.Scale(this.z_viewPort)
                     , SpriteEffects.None, 1);
-            if (this.z_backgroundImage2.isAlive())
-                spriteBatch.Draw(this.z_backgroundImage2.getSprite(), this.z_backgroundImage2.getPosition(), null,
-                    Color.White, 0, new Vector2(0, 0), this.z_backgroundImage2.Scale(this.z_viewPort)
+            if (this.z_backgroundImage2.IsAlive)
+                spriteBatch.Draw(this.z_backgroundImage2.Sprite, this.z_backgroundImage2.Position, null,
+                    Color.White, 0, Vector2.Zero, this.z_backgroundImage2.Scale(this.z_viewPort)
                     , SpriteEffects.None, 1);
 
 

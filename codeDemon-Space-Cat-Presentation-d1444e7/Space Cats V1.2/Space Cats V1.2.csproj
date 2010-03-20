@@ -90,13 +90,10 @@
   <ItemGroup>
     <Compile Include="AI\AI_Script.cs" />
     <Compile Include="AI\AI_ScriptNode.cs" />
-    <Compile Include="BulletPool1.cs" />
     <Compile Include="Circle.cs" />
-    <Compile Include="EnemyBulletPool1.cs" />
-    <Compile Include="EnemyMissle1.cs" />
     <Compile Include="FrameRateCounter.cs" />
     <Compile Include="GameOverScreen.cs" />
-    <Compile Include="Objects\EnemyBullet1.cs" />
+    <Compile Include="Objects\EnemySimpleBullet.cs" />
     <Compile Include="Screens+Menus\MissionScreen.cs" />
     <Compile Include="Screens+Menus\MainMenuScreen.cs" />
     <Compile Include="Screens+Menus\LoadingScreen.cs" />

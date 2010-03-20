@@ -47,7 +47,7 @@ namespace Space_Cats_V1._2
         }
 
         //Intersection between two circles
-        public bool intersects(Circle circleOther)
+        public bool Intersects(Circle circleOther)
         {
             //Calculate the distance between the two circles.
             //DistanceSquared = (X1 - X2)^2 + (Y1 - Y2)^2
@@ -63,7 +63,7 @@ namespace Space_Cats_V1._2
         }
 
         //Intersection between this circle and a Rectangle
-        public bool intersects(Rectangle rectangleOther)
+        public bool Intersects(Rectangle rectangleOther)
         {
             
             //Check the distance between the center of the circle against each corner of the rectangle

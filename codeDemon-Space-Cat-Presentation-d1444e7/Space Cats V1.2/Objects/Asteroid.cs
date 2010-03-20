@@ -22,17 +22,14 @@ namespace Space_Cats_V1._2
         private float z_rotation;
         private float z_rotationSpeed;
         private bool z_hasBeenhit;
-        //Use circle for collision detection
-        private Circle z_hitCircle;
-
 
         //Constructor
         public Asteroid(Texture2D loadedSprite)
             : base(loadedSprite)
         {
             this.z_rotation = 0.0f;
-            this.z_center = new Vector2(this.getSprite().Width / 2, this.getSprite().Height / 2);
-            this.setVelocity(new Vector2(0 , 2));
+            this.z_center = new Vector2(this.Sprite.Width / 2, this.Sprite.Height / 2);
+            this.Velocity = Vector2.UnitY * 2;
             this.z_rotationSpeed = 0f;
             this.z_hasBeenhit = false;
         }
@@ -55,10 +52,6 @@ namespace Space_Cats_V1._2
         {
             return this.z_hasBeenhit;
         }
-        public Circle getHitCircle()
-        {
-            return this.z_hitCircle;
-        }
 
         //Mutator Methods
         public void setCenter(Vector2 newCenter)
@@ -80,8 +73,7 @@ namespace Space_Cats_V1._2
         public void setAstroPosition(Vector2 newPosition)
         {
             this.z_centerPosition = newPosition;
-            this.z_hitCircle = new Circle(this.z_centerPosition, ((float)((this.getSprite().Width / 2) + (this.getSprite().Height / 2)) / 2));
-            this.setPosition(newPosition);
+            this.Position=newPosition;
         }
 
         //Asteroid Update Method
@@ -91,8 +83,7 @@ namespace Space_Cats_V1._2
             this.upDatePositionWithSpeed();
             if (this.z_centerPosition != null)
             {
-                this.z_centerPosition += this.getVelocityWithSpeed();
-                this.z_hitCircle.setCenter(this.z_centerPosition);
+                this.z_centerPosition += this.VelocityWithSpeed;
             }
         }
 

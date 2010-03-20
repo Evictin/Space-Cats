@@ -26,11 +26,104 @@ namespace Space_Cats_V1._2
         //For Hit Detection Purposes
         private bool z_isKillerObject;
         private bool z_isPickUp;
-        private Rectangle z_hitRec;
+        private int z_pointValue;
+        private bool z_canTakeDamage;
+
         private static Random z_random;
         protected Random RandomGen
         { get { return z_random; } }
 
+        #region Public properties
+        public int ID
+        {
+            get { return z_ID; }
+            set { z_ID = value; }
+        }
+        public float Speed
+        {
+            get { return z_speed; }
+            set { z_speed = value; }
+        }
+        public Vector2 Position
+        {
+            get { return z_position; }
+            set { z_position = value; }
+        }
+        public Vector2 DrawPosition
+        { get { return new Vector2(z_position.X - z_sprite.Width / 2, z_position.Y - z_sprite.Height / 2); } }
+        public Vector2 Velocity
+        {
+            get { return z_velocity; }
+            set { z_velocity = value; }
+        }
+        public Vector2 VelocityWithSpeed
+        { get { return z_velocity * z_speed; } }
+        
+        public bool IsAlive
+        { 
+            get { return z_isAlive; }
+            set { z_isAlive = value; }
+        }
+        public bool CanTakeDamage
+        {
+            get { return z_canTakeDamage; }
+            set { z_canTakeDamage = value; }
+        }
+        public bool IsKillerObject
+        {
+            get { return z_isKillerObject; }
+            set
+            {
+                z_isKillerObject = value;
+                if (value)
+                    z_isPickUp = false;
+            }
+        }
+        public bool IsPickUp
+        { 
+            get { return z_isPickUp; }
+            set
+            {
+                z_isPickUp = value;
+                if (value)
+                    z_isKillerObject = false;
+            }
+        }
+        public Texture2D Sprite
+        {
+            get { return z_sprite; }
+            set { z_sprite = value; }
+        }
+        public int PointValue
+        {
+            get { return z_pointValue; }
+            set { z_pointValue = value; }
+        }
+        virtual public Circle HitCircle
+        { get { return new Circle(z_position, (z_sprite.Width < z_sprite.Height ? z_sprite.Width : z_sprite.Height) / 2); } }
+        virtual public Rectangle HitRec
+        { get { return new Rectangle((int)z_position.X - z_sprite.Width / 2, (int)z_position.Y - z_sprite.Height / 2, z_sprite.Width, z_sprite.Height); } }
+        public float Left
+        {
+            get { return z_position.X - z_sprite.Width / 2; }
+            set { z_position.X = value + z_sprite.Width / 2; }
+        }
+        public float Right
+        {
+            get { return z_position.X + z_sprite.Width / 2; }
+            set { z_position.X = value - z_sprite.Width / 2; }
+        }
+        public float Top
+        {
+            get { return z_position.Y - z_sprite.Height / 2; }
+            set { z_position.Y = value + z_sprite.Height / 2; }
+        }
+        public float Bottom
+        {
+            get { return z_position.Y + z_sprite.Height / 2; }
+            set { z_position.Y = value - z_sprite.Height / 2; }
+        }
+        #endregion
 
         //Constructor -------------------------------------------------------------------------------------------
         public GameObject(Texture2D loadedTexture)
@@ -41,7 +134,6 @@ namespace Space_Cats_V1._2
             this.z_velocity = Vector2.Zero;
             this.z_speed = 1.0f;
             this.z_isAlive = false;
-            this.z_hitRec = new Rectangle(0, 0, 0, 0);
             this.z_isKillerObject = false;
             this.z_isPickUp = false;
             if (z_random == null)
@@ -49,91 +141,8 @@ namespace Space_Cats_V1._2
         }
 
         //Access Methods ----------------------------------------------------------------------------------------
-        public Texture2D getSprite()
-        {
-            return this.z_sprite;
-        }
-        public Vector2 getPosition()
-        {
-            return this.z_position;
-        }
-        public Vector2 getVelocity()
-        {
-            return this.z_velocity;
-        }
-        public Vector2 getVelocityWithSpeed()
-        {
-            return new Vector2(this.z_velocity.X * this.z_speed,
-                                           this.z_velocity.Y * this.z_speed);
-        }
-        public bool isAlive()
-        {
-            return this.z_isAlive;
-        }
-        public float getSpeed()
-        {
-            return this.z_speed;
-        }
-        public bool isKillerObject()
-        {
-            return this.z_isKillerObject;
-        }
-        public bool getIsPickUp()
-        {
-            return this.z_isPickUp;
-        }
-        public virtual Rectangle getHitRec()
-        {
-            return new Rectangle((int)this.z_position.X, (int)this.z_position.Y, this.z_sprite.Width, this.z_sprite.Height);
-        }
-        public int getID()
-        {
-            return z_ID;
-        }
 
         //Mutator Methods ---------------------------------------------------------------------------------------
-        public void setSprite(Texture2D newSprite)
-        {
-            this.z_sprite = newSprite;
-        }
-        public void setPosition(Vector2 newPosition)
-        {
-            this.z_position = newPosition;
-        }
-        public void setVelocity(Vector2 newVelocity)
-        {
-            this.z_velocity = newVelocity;
-        }
-        public void setIsAlive(bool isAlive)
-        {
-            this.z_isAlive = isAlive;
-        }
-        public void setSpeed(float newSpeed)
-        {
-            this.z_speed = newSpeed;
-        }
-        public void setIsKillerObject(bool isKiller)
-        {
-            if (isKiller == true && this.z_isPickUp)
-                this.z_isPickUp = false;
-            this.z_isKillerObject = isKiller;
-        }
-        public void setIsPickUp(bool isPickup)
-        {
-            if (this.z_isKillerObject && isPickup == true)
-                this.z_isKillerObject = false;
-            this.z_isPickUp = isPickup;
-        }
-        public void setHitRec(Rectangle newHitRec)
-        {
-            this.z_hitRec = newHitRec;
-        }
-        public void setID(int id)
-        {
-            z_ID = id;
-        }
-
-
         //Other Methods -----------------------------------------------------------------------------------------
         public void upDatePosition()
         {
@@ -143,11 +152,14 @@ namespace Space_Cats_V1._2
         //Use this method for updating position if a speed is set
         public void upDatePositionWithSpeed()
         {
-            this.z_position += new Vector2(this.z_velocity.X * this.z_speed,
-                                           this.z_velocity.Y * this.z_speed);
+            this.z_position += z_velocity * z_speed;
         }
 
-
+        virtual public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
+        {
+            if (IsAlive)
+                spriteBatch.Draw(this.z_sprite, this.DrawPosition, Color.White);
+        }
 
 
     }

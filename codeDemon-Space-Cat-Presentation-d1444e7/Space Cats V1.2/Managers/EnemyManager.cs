@@ -57,9 +57,10 @@ namespace Space_Cats_V1._2
         {
             BinaryReader br;
             string input;
-            string[] words;
             int fileID;
             Rectangle fileViewport = new Rectangle(0,0,0,0);
+            if (z_instance == null)
+                z_instance = this;
 
             this.z_enemyShips = new List<IEnemyShip>();
             this.z_content = content;
@@ -96,6 +97,7 @@ namespace Space_Cats_V1._2
 
             // Initialize the enemy1 pool
             Enemy1.Initialize(this.z_content);
+            EnemySimpleBullet.Initialize(this.z_content, this.z_viewPort);
         }
 
        
@@ -150,27 +152,26 @@ namespace Space_Cats_V1._2
                 this.z_counter = 0;
             }
 
-            for (int i = 0; i < this.z_enemyShips.Count; i++)
+            for (int i = 0; i< this.z_enemyShips.Count;i++)
             {
                 this.z_enemyShips[i].AIUpdate(gameTime);
-                if (!this.z_enemyShips[i].isAlive())
-                {
+                if (!this.z_enemyShips[i].IsAlive)
+                {   
                     this.z_enemyShips[i].returnToPool();
                     this.z_enemyShips.RemoveAt(i);
-                    i--;
                 }
-
-
             }
 
             for (int i = 0; i < this.z_enemyShips.Count; i++)
             {
                 //Check for collision with player ship
-                if (!this.playerShip.getIsInvincible() && 
-                    this.z_enemyShips[i].getHitRec().Intersects(playerShip.getHitRec()))
+                if (!this.playerShip.IsInvincible &&
+                    this.z_enemyShips[i].HitCircle.Intersects(playerShip.HitCircle))
                 {
-                    this.z_enemyShips[i].setIsAlive(false);
-                    this.playerShip.setHealth(0);
+                    // a collision will reduce the enemies health to zero
+                    this.z_enemyShips[i].reduceHealth(this.z_enemyShips[i].Health);
+                    // but will reduce the players life by the amount damage the enemy deals (it could be a missile, etc)
+                    this.playerShip.Health -= this.z_enemyShips[i].Damage;
                 }
             }
 
@@ -180,14 +181,10 @@ namespace Space_Cats_V1._2
         }
 
         //Draw Method
-        public void draw()
+        public void draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
-            for (int i = 0; i < this.z_enemyShips.Count; i++)
-            {
-                if (this.z_enemyShips[i].isAlive())
-                    this.z_spriteBatch.Draw(this.z_enemyShips[i].getSprite(), 
-                        this.z_enemyShips[i].getPosition(), Color.White);
-            }
+            foreach (IEnemyShip enemy in z_enemyShips)
+                enemy.Draw(spriteBatch, gameTime);
         }
 
         static public int totalEnemyCount()

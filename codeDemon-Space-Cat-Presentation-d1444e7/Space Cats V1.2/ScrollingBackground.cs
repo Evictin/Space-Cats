@@ -20,7 +20,7 @@ namespace Space_Cats_V1._2
         public ScrollingBackground(Texture2D background)
             : base(background)
         {
-            this.setVelocity(new Vector2(0f,0.4f));
+            this.Velocity = new Vector2(0f,0.4f);
         }
 
         //Methods
@@ -40,8 +40,8 @@ namespace Space_Cats_V1._2
             float scaleY = ((float)viewPort.Height / this.getSprite().Height);
             */
 
-            return new Vector2(((float)viewPort.Width / this.getSprite().Width),
-                                ((float)viewPort.Height / this.getSprite().Height));
+            return new Vector2(((float)viewPort.Width / this.Sprite.Width),
+                                ((float)viewPort.Height / this.Sprite.Height));
 
         }
 

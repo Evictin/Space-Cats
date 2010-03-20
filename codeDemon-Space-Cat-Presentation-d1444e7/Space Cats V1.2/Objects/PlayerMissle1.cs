@@ -13,44 +13,61 @@ using Microsoft.Xna.Framework.Storage;
 
 namespace Space_Cats_V1._2
 {
-    class PlayerMissle1 : MissleObject
+    class PlayerMissile1 : MissileObject
     {
         //Instance Variables ---------------------------------------------------------
-        private bool isAvailable;
-
+        private static List<PlayerMissile1> z_pool;
+        private static Texture2D zs_image;
+        private static SoundEffect zs_fireSound;
+        
         //Constructor ----------------------------------------------------------------
-        public PlayerMissle1(Texture2D MissleSprite, Vector2 playersLocation, SpriteBatch spriteBatch)
-            : base(MissleSprite, playersLocation, spriteBatch)
+        public PlayerMissile1()
+            : base(zs_image)
         {
-            this.setVelocity(new Vector2(0, -1));
-            this.setSpeed(7);
-            this.setIsAlive(true);
-            this.isAvailable = true;
+            this.Velocity = -Vector2.UnitY;
+            this.Speed = 5;
+            this.IsAlive = true;
+            this.Damage = 100;
+        }
+        
+        public static void Initialize(ContentManager content)
+        {
+            z_pool = new List<PlayerMissile1>();
+            zs_image = content.Load<Texture2D>("Content\\Images\\Ball1");
+            zs_fireSound = content.Load<SoundEffect>("Content\\Audio\\SoundFX\\LaserPellet");
+
+            for (int i = 0; i < 20; i++)
+                z_pool.Add(new PlayerMissile1());
         }
 
         //Accessor Methods -----------------------------------------------------------
-        public bool getIsAvailable()
+        public static PlayerMissile1 GetNextMissile(Vector2 coords)
         {
-            return this.isAvailable;
+            PlayerMissile1 missile;
+            if (z_pool.Count == 0)
+            {
+                for (int i = 0; i < 5; i++)
+                    z_pool.Add(new PlayerMissile1());
+            }
+            missile = z_pool[z_pool.Count-1];
+            z_pool.RemoveAt(z_pool.Count-1);
+            missile.Position = coords;
+            zs_fireSound.Play(.2f, 0, 0);
+            return missile;
         }
-
+        
         //Mutator Methods ------------------------------------------------------------
-        public void setIsAvailable(bool isAvailable)
+        public void reset()
         {
-            this.isAvailable = isAvailable;
+            this.IsAlive = true;
         }
-
+        
         //Other Methods --------------------------------------------------------------
-
-
-
-
-
-
-
-
-
-
+        public override void returnToPool()
+        {
+            z_pool.Add(this);
+            this.reset();
+        }
 
     }
 }

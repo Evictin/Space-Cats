@@ -22,31 +22,45 @@ namespace Space_Cats_V1._2
         //private static Random zs_randomGen;
         private static List<Enemy1> zs_pool;
         private static Texture2D zs_image;
+        private static EnemyManager zs_enemyManager;
 
         //Constructor - this is private to force ppl to call the static function
         private Enemy1(Texture2D loadedSprite, IArtificialIntelligence ai)
             : base(loadedSprite)
         {
-            this.setIsKillerObject(true);
-            this.setIsPickUp(false);
+            this.IsKillerObject = true;
+            this.IsPickUp = false;
             this.fireTime = 0;
             this.fireCoolOff = 1000;
+            this.PointValue = 100;
+            this.Health = 100;
+            this.Damage = 100000; // ensure that this will kill the player despite shields, etc
+            this.CanTakeDamage = true;
             if (ai != null)
             {
-                setAI(ai);
-                this.setPosition(this.getAI().getStartingPosition());
+                AI = ai;
+                this.Position = this.AI.getStartingPosition();
             }
         }
 
         //Accessors
 
         //Mutators
+        public override void reduceHealth(int amount)
+        {
+            base.reduceHealth(amount);
+            if (Health <= 0)
+            {
+                this.IsAlive = false;
+            }
+        }
 
         // This function initializes the internal pool and loads in the image to use to create all the 
         // 'Enemy1' type ships. It also creates a few enemies in the pool for fast retrieval.
         public static void Initialize(ContentManager content)
         {
             zs_pool = new List<Enemy1>();
+            zs_enemyManager = EnemyManager.getInstance();
             zs_image = content.Load<Texture2D>("Content\\Images\\EnemyShips\\EnemyShip1");
             for (int i = 0; i < 5; i++)
             {
@@ -65,14 +79,14 @@ namespace Space_Cats_V1._2
             if (zs_pool.Count > 0)
             {
                 enemy = zs_pool[zs_pool.Count - 1];
-                enemy.setAI(ai);
+                enemy.AI = ai;
                 zs_pool.RemoveAt(zs_pool.Count - 1);
             }
             else 
                 enemy = new Enemy1(zs_image, ai); // pool was empty, so create a new enemy
 
             // reset the enemy before use
-            enemy.setIsAlive(true);
+            enemy.IsAlive = true;
             return enemy;
         }
 
@@ -94,34 +108,29 @@ namespace Space_Cats_V1._2
             if (time > fireTime)
             {
                 fireTime = time + this.fireCoolOff;
-                MissleManager.getCurrent().fireEnemyMissle(this.getPosition(), this.getSprite());
+                zs_enemyManager.getEnemiesList().Add(EnemySimpleBullet.getNewBullet(this.Position));
             }
             this.fireCoolOff = MathHelper.Lerp(1000, 5000, (float)RandomGen.NextDouble());
-            if (this.getAI().okToRemove())
+            if (this.AI.okToRemove())
             {
-                this.setIsAlive(false);
+                this.IsAlive = false;
                 return;
             }
 
-            this.setVelocity(this.getAI().calculateNewVelocity(this.getPosition(), gameTime));
+            this.Velocity = this.AI.calculateNewVelocity(this.Position, gameTime);
 
             this.upDatePosition();
-            this.setHitRec(new Rectangle((int)this.getPosition().X, (int)this.getPosition().Y,
-                          (int)this.getSprite().Width, (int)this.getSprite().Height));
         }
 
         override public void reset()
         {
-            this.setVelocity(Vector2.Zero);
-            this.setSpeed(1.0f);
-            this.setIsAlive(false);
-            this.setHitRec(new Rectangle(0, 0, 0, 0));
-            this.setIsKillerObject(false);
-            this.setIsPickUp(false);
+            this.Velocity = Vector2.Zero;
+            this.Speed = 1f;
+            this.IsAlive = true;
             this.fireTime = 0;
             this.fireCoolOff = 1000;
-            this.getAI().reset();
-            this.setPosition(getAI().getStartingPosition());
+            this.AI.reset();
+            this.Position = AI.getStartingPosition();
         }
     }
 }

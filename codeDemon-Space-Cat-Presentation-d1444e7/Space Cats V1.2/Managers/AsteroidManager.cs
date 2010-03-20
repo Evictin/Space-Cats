@@ -139,7 +139,7 @@ namespace Space_Cats_V1._2
                 this.z_asteroidHolder[i] = new Asteroid(z_content.Load<Texture2D>
                                                         ("Content\\Images\\Asteroids\\Asteroid" + this.getRandomImage()));
                 this.z_asteroidHolder[i].setAstroPosition(new Vector2(this.getRandomWidth(), this.getRandomHeight()));
-                this.z_asteroidHolder[i].setSpeed(this.getRandomSpeed());
+                this.z_asteroidHolder[i].Speed = this.getRandomSpeed();
                 this.z_asteroidHolder[i].setRotationSpeed(this.getRandomRotationSpeed());
             }
         }
@@ -149,7 +149,7 @@ namespace Space_Cats_V1._2
         public void drawAsteroids()
         {
             foreach (Asteroid asteroid in this.z_asteroidHolder)
-                this.z_spriteBatch.Draw(asteroid.getSprite(), asteroid.getPosition(), null,
+                this.z_spriteBatch.Draw(asteroid.Sprite, asteroid.Position, null,
                                         Color.White, asteroid.getRotation(), asteroid.getCenter(), 1.0f,
                                         SpriteEffects.None, 0);
         }
@@ -161,29 +161,29 @@ namespace Space_Cats_V1._2
             foreach (Asteroid asteroid in this.z_asteroidHolder)
             {
                 //If the asteroid has gone off the screen, reset it back to the top
-                if (asteroid.getPosition().Y > this.z_viewPort.Height+(asteroid.getSprite().Height*1.5) ||
+                if (asteroid.Position.Y > this.z_viewPort.Height+(asteroid.Sprite.Height*1.5) ||
                     asteroid.getHasBeenHit())
                 {
                     asteroid.sethasBeenHit(false);
                     //Then reset it and rerandomize it's variables
                     //Not sure if reloading a new image for each asteroid is a good idea
                     //Might cause game lag**
-                    asteroid.setSprite(z_content.Load<Texture2D>
-                                       ("Content\\Images\\Asteroids\\Asteroid" + this.getRandomImage()));
+                    asteroid.Sprite = z_content.Load<Texture2D>
+                                       ("Content\\Images\\Asteroids\\Asteroid" + this.getRandomImage());
                     asteroid.setAstroPosition(new Vector2(this.getRandomWidth(), this.getRandomHeight()));
-                    asteroid.setSpeed(this.getRandomSpeed());
+                    asteroid.Speed = this.getRandomSpeed();
                     //Because The rotation is perfectly centered, asteroids that move slow look really
                     //Off balance. So instead I'm temporarily scaling rotation speed with the asteroids traveling speed
                     //asteroid.setRotationSpeed(this.getRandomRotationSpeed());
-                    asteroid.setRotationSpeed((asteroid.getSpeed() / 50)*this.getRandomRotationDirection());
-                    asteroid.setIsAlive(true);
+                    asteroid.setRotationSpeed((asteroid.Speed / 50) * this.getRandomRotationDirection());
+                    asteroid.IsAlive = true;
                 }
 
                 //If an asteroid has hit the player, then do something
-                if (asteroid.getHitCircle().intersects((playerShip.getHitRec())))
+                if (asteroid.HitCircle.Intersects((playerShip.HitCircle)))
                 {
                     asteroid.sethasBeenHit(true);
-                    playerShip.setHealth(0);
+                    playerShip.Health = 0;
                 }
 
 

@@ -107,7 +107,7 @@ namespace Space_Cats_V1._2
                             && previousKeyboardState.IsKeyUp(Keys.Up))
                         {
                             this.z_currentState = TitleState.Options;
-                            this.z_arrow.setPosition(new Vector2((float)((this.z_viewPort.Width / 2) - 200), (float)(this.z_viewPort.Height / 2)+125));
+                            this.z_arrow.Position = new Vector2((float)((this.z_viewPort.Width / 2) - 200), (float)(this.z_viewPort.Height / 2) + 125);
                         }
                         break;
                     }
@@ -117,13 +117,13 @@ namespace Space_Cats_V1._2
                             && previousKeyboardState.IsKeyUp(Keys.Up))
                         {
                             this.z_currentState = TitleState.Exit;
-                            this.z_arrow.setPosition(new Vector2((float)((this.z_viewPort.Width / 2) - 200), (float)(this.z_viewPort.Height / 2)+190));
+                            this.z_arrow.Position = new Vector2((float)((this.z_viewPort.Width / 2) - 200), (float)(this.z_viewPort.Height / 2) + 190);
                         }
                         else if (previousKeyboardState.IsKeyUp(Keys.Down) && currentKeyboardState.IsKeyDown(Keys.Up)
                                 && previousKeyboardState.IsKeyUp(Keys.Up))
                         {
                             this.z_currentState = TitleState.Start;
-                            this.z_arrow.setPosition(new Vector2((float)((this.z_viewPort.Width / 2) - 200), (float)(this.z_viewPort.Height / 2)+50));
+                            this.z_arrow.Position = new Vector2((float)((this.z_viewPort.Width / 2) - 200), (float)(this.z_viewPort.Height / 2)+50);
                         }
                         break;
                     }
@@ -133,7 +133,7 @@ namespace Space_Cats_V1._2
                                 && previousKeyboardState.IsKeyUp(Keys.Up))
                         {
                             this.z_currentState = TitleState.Options;
-                            this.z_arrow.setPosition(new Vector2((float)((this.z_viewPort.Width / 2) - 200), (float)(this.z_viewPort.Height / 2)+125));
+                            this.z_arrow.Position = new Vector2((float)((this.z_viewPort.Width / 2) - 200), (float)(this.z_viewPort.Height / 2)+125);
                         }
                         break;
                     }
@@ -155,10 +155,10 @@ namespace Space_Cats_V1._2
             Vector2 ScaledVec = new Vector2(((float)viewPort.Width / this.z_logo.Width),
                                 ((float)viewPort.Height / this.z_logo.Height));
 
-            spritebatch.Draw(this.z_logo, new Vector2(0, 0), null, Color.White,
-                             0, new Vector2(0, 0), ScaledVec, SpriteEffects.None, 1);
+            spritebatch.Draw(this.z_logo, Vector2.Zero, null, Color.White,
+                             0, Vector2.Zero, ScaledVec, SpriteEffects.None, 1);
             spritebatch.Draw(this.z_options, new Vector2((float)((viewPort.Width / 2) - 400), (float)(viewPort.Height / 2)), null,
-                             Color.White, 0, new Vector2(0,0), new Vector2(1,1), SpriteEffects.None, 1);
+                             Color.White, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, 1);
 
             
             
@@ -191,7 +191,7 @@ namespace Space_Cats_V1._2
 
             }
 
-            spritebatch.Draw(this.z_arrow.getSprite(), this.z_arrow.getPosition(), Color.White);
+            spritebatch.Draw(this.z_arrow.Sprite, this.z_arrow.Position, Color.White);
 
         }
 
@@ -203,7 +203,7 @@ namespace Space_Cats_V1._2
             this.z_options = content.Load<Texture2D>("Content\\Screens\\TitleOptions3");
             this.z_arrow = new GameObject(content.Load<Texture2D>("Content\\Screens\\ArrowSelection2"));
             //Try to fiqure the starting position for arrow ^^
-            this.z_arrow.setPosition(new Vector2((float)((this.z_viewPort.Width / 2) - 200), (float)(this.z_viewPort.Height / 2)+50));
+            this.z_arrow.Position = new Vector2((float)((this.z_viewPort.Width / 2) - 200), (float)(this.z_viewPort.Height / 2) + 50);
             this.z_isLoaded = true;
         }
 
