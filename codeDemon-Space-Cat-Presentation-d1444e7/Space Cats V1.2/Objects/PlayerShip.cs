@@ -42,7 +42,6 @@ namespace Space_Cats_V1._2
         private AccelerationState z_currentYstate;
         private bool z_IsInvincible;
         private float z_InvincibleTimer;
-        private float z_drawTimer;
         private Vector2 z_startingPosition;
         private static PlayerShip instanceOf = null;
         private static Rectangle z_hitRecInvincible;
@@ -67,8 +66,8 @@ namespace Space_Cats_V1._2
                 if (this.z_IsInvincible)
                     return z_hitRecInvincible;
                 else
-                    return new Rectangle((int)(this.Left + this.Sprite.Width * .15),
-                        (int)(this.Top + this.Sprite.Height * .1), (int)(this.Sprite.Width * .7), (int)(this.Sprite.Height * .9));
+                    return new Rectangle((int)(this.Left + this.Width * .15),
+                        (int)(this.Top + this.Height * .1), (int)(this.Width * .7), (int)(this.Height * .9));
             }
         }
         public int Health
@@ -105,28 +104,24 @@ namespace Space_Cats_V1._2
             get { return z_IsInvincible; }
             set
             {
+                // if we are setting inv. mode and not there already...
+                if (value && !z_IsInvincible)
+                    z_InvincibleTimer = 0;
                 z_IsInvincible = value;
-                if (value)
-                {
-                    z_InvincibleTimer = 1000;
-                    z_drawTimer = 0;
-                }
             }
         }
-        public float InvincibleTimer
+        #endregion
+
+        private float InvincibleTimer
         {
             get { return z_InvincibleTimer; }
             set
             {
                 z_InvincibleTimer = value;
-                if (value <= 0)
-                {
-                    z_InvincibleTimer = 0;
+                if (value >= 2000)
                     z_IsInvincible = false;
-                }
             }
         }
-        #endregion
 
         // Used by other classes....
         public static PlayerShip getInstance()
@@ -160,11 +155,16 @@ namespace Space_Cats_V1._2
             this.z_currentYstate = AccelerationState.zero;
             this.Lives = 3;
             this.IsInvincible = true;
-            this.z_drawTimer = 0;
             this.z_startingPosition = startingPosition;
             this.Position = z_startingPosition;
+            SpriteRows = 1;
+            SpriteCols = 1;
+            this.z_animationDelay = 50;
             z_hitRecInvincible = new Rectangle(100000, 100000, 0, 0);
             z_hitCircleInvincible = new Circle(new Vector2(100000, 100000), 0);
+            DrawRotation = MathHelper.PiOver2;
+            SpriteOrientation = MathHelper.PiOver2;
+            DrawDepth = .4f;
         }
         #endregion
 
@@ -184,7 +184,6 @@ namespace Space_Cats_V1._2
             this.z_currentYstate = AccelerationState.zero;
             this.Lives = 3;
             this.IsInvincible = true;
-            this.z_drawTimer = 0;
             this.Position = z_startingPosition;
             this.resetXvelocity();
             this.resetYvelocity();
@@ -312,7 +311,7 @@ namespace Space_Cats_V1._2
             //Update the invincible timer
             if (this.IsInvincible)
             {
-                this.InvincibleTimer -= gameTime.ElapsedGameTime.Milliseconds;
+                this.InvincibleTimer += gameTime.ElapsedGameTime.Milliseconds;
             }
 
 
@@ -329,11 +328,11 @@ namespace Space_Cats_V1._2
             //Bring ship back to screen if ever necessary
             if (this.Left < 0)
                 this.Left = 0;
-            if (this.Right > (float)viewPort.Width)
+            if (this.Right > viewPort.Width)
                 this.Right = viewPort.Width;
             if (this.Top < 0)
                 this.Top = 0;
-            if (this.Bottom > (float)viewPort.Height)
+            if (this.Bottom > viewPort.Height)
                 this.Bottom = viewPort.Height;
 
             //Perform the actual update on the ship Object
@@ -438,28 +437,11 @@ namespace Space_Cats_V1._2
         //Draw Method for PlayerShip
         public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
-            if (!this.IsAlive)
-                return;
-            if (!this.IsInvincible)
-                spriteBatch.Draw(this.Sprite, this.DrawPosition, Color.White);
+            if (IsInvincible)
+                SpriteColor = new Color(.8f, .8f, .8f, (float)z_InvincibleTimer % 500 / 500);
             else
-            {
-                if (this.z_drawTimer >= 0 && this.z_drawTimer < 100)
-                {
-                    spriteBatch.Draw(this.Sprite, this.DrawPosition, new Color(.8f, .8f, .8f, 0.40f));
-                    this.z_drawTimer += gameTime.ElapsedGameTime.Milliseconds;
-
-                }
-                else if (this.z_drawTimer >= 100 && this.z_drawTimer < 200)
-                {
-                    spriteBatch.Draw(this.Sprite, this.DrawPosition, new Color(.8f, .8f, .8f, 0.80f));
-                    this.z_drawTimer += gameTime.ElapsedGameTime.Milliseconds;
-
-                }
-                else
-                    this.z_drawTimer = 0;
-
-            }
+                SpriteColor = Color.White;
+            base.Draw(spriteBatch, gameTime);
         }
         #endregion
 

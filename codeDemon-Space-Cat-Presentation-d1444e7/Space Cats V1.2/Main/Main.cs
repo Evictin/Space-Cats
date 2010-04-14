@@ -125,78 +125,6 @@ namespace Space_Cats_V1._2
             //Initialize the Ultimate Manager
             this.z_ultimateManager = new UltimateManager(this, this.z_contentManager);
 
-
-
-
-            
-
-
-
-
-
-
-
-
-
-
-            /*
-            //Load the loadingManager
-            this.z_loadingManager = new LoadingManager(Content.Load<Texture2D>("Screens\\LoadingStatic"), 
-                                                        Content.Load<Texture2D>("Screens\\LogoScreen"),
-                                                        this.z_contentManager);
-
-            //Load the gameStateManager
-            this.z_gameStateManager = new GameStateManager(new TitleScreen(Content.Load<Texture2D>("Screens\\LogoScreen"),
-                                         Content.Load<Texture2D>("Screens\\TitleOptions"),
-                                         Content.Load<Texture2D>("Screens\\ArrowSelection")));
-
-            
-
-            
-
-            
-            //Load the background Images
-            this.z_backgroundImage1 = new ScrollingBackgroundManager(Content.Load<Texture2D>("Textures\\spaceBackground"));
-            this.z_backgroundImage2 = new ScrollingBackgroundManager(Content.Load<Texture2D>("Textures\\spaceBackground"));
-
-            //Set the positions for the background Images
-            this.z_backgroundImage1.setPosition(new Vector2(0f, 0f));
-            this.z_backgroundImage2.setPosition(new Vector2(0f, 0f - this.z_viewportRec.Height));
-            
-            //Turn the background Images alive
-            this.z_backgroundImage1.setIsAlive(true);
-            this.z_backgroundImage2.setIsAlive(true);
-
-            //Set the starting position for player's ship
-            this.z_startingPosition = new Vector2(this.z_viewportRec.Center.X,
-                                                    z_graphics.GraphicsDevice.Viewport.Height - 80);
-
-            //Create the Player's ship image
-            this.z_playerShip = new PlayerShip(Content.Load<Texture2D>("Images\\ship2"), this.z_startingPosition);           
-
-            //Set the player alive
-            this.z_playerShip.setIsAlive(true);
-
-            
-
-            //Load Fonts
-            this.z_timerFont = Content.Load<SpriteFont>("Fonts\\TimerFont");
-            this.z_livesFont = Content.Load<SpriteFont>("Fonts\\LivesFont");
-
-            
-            
-
-            //Load the Settings for the asteroidManager
-            this.z_asteroidManager = new AsteroidManager(AsteroidManager.AsteroidManagerState.Heavy, this.z_viewportRec,
-                                                         this.z_contentManager, this.z_spriteBatch);
-
-            //Load the Settings for the MissleManager
-            this.z_missleManager = new MissleManager(this.z_viewportRec, this.z_contentManager,
-                                                     Content.Load<SoundEffect>("Audio\\SoundFX\\LaserPellet"));
-
-            //Load the Settings for the EnemyManager
-            this.z_enemyManager = new EnemyManager(this.z_contentManager, this.z_spriteBatch, this.z_viewportRec);
-            **/
         }
 
 
@@ -227,51 +155,7 @@ namespace Space_Cats_V1._2
             GraphicsDevice.Clear(Color.Black);
             this.z_spriteBatch.Begin(SpriteBlendMode.AlphaBlend);
 
-
-
             this.z_ultimateManager.Draw(gameTime);
-
-
-            /*
-            //Draw Background images
-            if(this.z_backgroundImage1.getIsAlive())
-                this.z_spriteBatch.Draw(this.z_backgroundImage1.getSprite(), this.z_backgroundImage1.getPosition(),null,
-                    Color.White, 0, new Vector2(0, 0), this.z_backgroundImage1.Scale(this.z_viewportRec)
-                    ,SpriteEffects.None,1);                       
-            if(this.z_backgroundImage2.getIsAlive())
-                this.z_spriteBatch.Draw(this.z_backgroundImage2.getSprite(), this.z_backgroundImage2.getPosition(), null,
-                    Color.White, 0, new Vector2(0, 0), this.z_backgroundImage2.Scale(this.z_viewportRec)
-                    ,SpriteEffects.None, 1);
-
-            //Draw Enemies from EnemyManager
-            this.z_enemyManager.draw();
-
-            //Draw any asteroids from AsteroidManager
-            this.z_asteroidManager.drawAsteroids();
-            
-            //Draw Player Ship
-            this.z_playerShip.draw(this.z_spriteBatch, gameTime);
-
-            //Draw Fonts
-            this.z_spriteBatch.DrawString(this.z_timerFont, "Time: " + Math.Round(z_gameTimer,2),
-                                          new Vector2(.01f * this.z_viewportRec.Width, .01f * this.z_viewportRec.Height),
-                                          Color.Yellow);
-            this.z_spriteBatch.DrawString(this.z_livesFont, "Lives: " + this.z_playerShip.getLives(),
-                                          new Vector2(.01f * this.z_viewportRec.Width, .05f * this.z_viewportRec.Height),
-                                          Color.White);
-
-            
-
-            //Draw Missles
-            this.z_missleManager.MissleManagerDrawAllMissles();
-
-
-            //Draw loading screen until loading is done
-            if (!this.z_loadingManager.getInitialLoadFinished())
-                this.z_loadingManager.Draw(this.z_spriteBatch);
-            else
-                this.z_gameStateManager.Draw(this.z_spriteBatch);
-            **/
 
 
 

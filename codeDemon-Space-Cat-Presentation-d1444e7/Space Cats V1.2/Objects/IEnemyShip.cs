@@ -24,7 +24,7 @@ namespace Space_Cats_V1._2
             set
             {
                 z_health = value;
-                IsAlive = (value != 0);
+                IsAlive = (value > 0);
             }
         }
         public int Damage
@@ -49,17 +49,9 @@ namespace Space_Cats_V1._2
         {
         }
 
-        virtual public void reduceHealth(int amount)
-        {
-            Health -= amount;
-            if (Health <= 0)
-                IsAlive = false;
-        }
-
         //This method should be calaulated using some sort of AI
         abstract public void AIUpdate(GameTime gameTime);
         abstract public void reset();
-        abstract public void returnToPool();
         public void transferAI(IArtificialIntelligence ai)
         {
             z_AI = ai;

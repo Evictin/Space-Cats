@@ -25,46 +25,29 @@ namespace Space_Cats_V1._2
 
 
         //Instance Variables ---------------------------------------------------------
-        private List<MissileObject> z_missles;
-        private Rectangle z_viewPort;
-        private List<IEnemyShip> z_EnemyShipList;
-        //The Enemy Manager
-        private EnemyManager z_enemyManager;
-        public static MissleManager z_instanceOf;
+        private List<MissileObject> z_missiles;
         private PlayerShip z_playerShip;
-
+        public static MissleManager z_instanceOf;
         public static MissleManager getInstance()
         {
             return z_instanceOf;
         }
 
         //Constructor ----------------------------------------------------------------
-        public MissleManager(Rectangle newViewPort, ContentManager content, SoundEffect sound, SpriteBatch spriteBatch, PlayerShip playerShip)
+        public MissleManager(ContentManager content, SpriteBatch spriteBatch)
         {
-            this.z_playerShip = playerShip;
-            this.z_viewPort = newViewPort;
-            this.z_enemyManager = EnemyManager.getInstance(content, spriteBatch, newViewPort);
-            this.z_EnemyShipList = z_enemyManager.getEnemiesList();
-            this.z_missles = new List<MissileObject>();
+            this.z_playerShip = PlayerShip.getInstance();
+            this.z_missiles = new List<MissileObject>();
             PlayerMissile1.Initialize(content);
             z_instanceOf = this;
         }
 
         //Accessor Methods -----------------------------------------------------------
-        public Rectangle getViewPort()
-        {
-            return this.z_viewPort;
-        }
         public int getTotalMissileCount()
         {
-            return z_missles.Count;
+            return z_missiles.Count;
         }
         //Mutator Methods ------------------------------------------------------------
-        public void setViewPort(Rectangle viewPort)
-        {
-            this.z_viewPort = viewPort;
-        }
-
         //Update and Draw Methods --------------------------------------------------------------
 
         //Main Update Method for Keyboard
@@ -81,11 +64,11 @@ namespace Space_Cats_V1._2
             if (currentKeyState.IsKeyDown(Keys.Space) && previousKeyState.IsKeyUp(Keys.Space) && playerShip.IsAlive)
             {
                 //Create and add a new Missle Object
-                this.z_missles.Add(PlayerMissile1.GetNextMissile(new Vector2(playerShip.Position.X, playerShip.Top)));
+                this.z_missiles.Add(PlayerMissile1.GetNextMissile(new Vector2(playerShip.Position.X, playerShip.Top)));
             }
 
             //If List is not empty, update everything
-            if (this.z_missles.Count > 0)
+            if (this.z_missiles.Count > 0)
                 this.UpdateFriendlyList(spriteBatch);
             
         }
@@ -100,11 +83,11 @@ namespace Space_Cats_V1._2
             //Same Algorithm as before, but with a gamePad controller [Fire = right Trigger]
             if (currentPadState.Triggers.Right >= .5f && previousPadState.Triggers.Right == 0 && playerShip.IsAlive)
             {
-                this.z_missles.Add(PlayerMissile1.GetNextMissile(new Vector2(playerShip.Position.X, playerShip.Top)));
+                this.z_missiles.Add(PlayerMissile1.GetNextMissile(new Vector2(playerShip.Position.X, playerShip.Top)));
             }
 
             //If List is not empty, update everything
-            if (this.z_missles.Count > 0)
+            if (this.z_missiles.Count > 0)
                 this.UpdateFriendlyList(spriteBatch);
 
         }
@@ -113,16 +96,18 @@ namespace Space_Cats_V1._2
         //Helper Method for Updating all Missles in the FriendlyMissles List
         private void UpdateFriendlyList(SpriteBatch spriteBatch)
         {
-            for (int i = 0; i < this.z_missles.Count; i++)
+            Rectangle viewport = StageManager.GetViewport();
+            for (int i = 0; i < this.z_missiles.Count; i++)
             {
-                if (this.z_viewPort.Contains(new Point((int)z_missles[i].Position.X,(int) z_missles[i].Position.Y)))
+                if (z_missiles[i].Bottom > viewport.Top)
+                //if (this.z_viewPort.Contains(new Point((int)z_missles[i].Position.X,(int) z_missles[i].Position.Y)))
                 {
-                    this.z_missles[i].upDateMissle();
+                    this.z_missiles[i].upDateMissle();
                 }
                 else
                 {
-                    this.z_missles[i].returnToPool();
-                    this.z_missles.RemoveAt(i);
+                    this.z_missiles[i].returnToPool();
+                    this.z_missiles.RemoveAt(i);
                     //Since a Missle was just removed from the list, ensure i is poitning to the next missle
                     i--;
                     continue;
@@ -130,20 +115,23 @@ namespace Space_Cats_V1._2
 
                 //Do some simple collision checking
 
-                foreach (IEnemyShip enemy in this.z_EnemyShipList)
+                foreach (IEnemyShip enemy in EnemyManager.getEnemiesList())
                 {
                     if (enemy.CanTakeDamage)
                     {
-                        if (this.z_missles[i].HitCircle.Intersects(enemy.HitCircle))
+                        if (this.z_missiles[i].HitCircle.Intersects(enemy.HitCircle))
                         {
-                            enemy.reduceHealth(this.z_missles[i].Damage);
+                            enemy.Health -= this.z_missiles[i].Damage;
                             if (!enemy.IsAlive)
                             {
+                                if (enemy is IExplodable)
+                                    ((IExplodable)enemy).SpawnExplosion();
                                 this.z_playerShip.score += enemy.PointValue;
+                                StageManager.AddObject(FloatingText.getNewText(new Vector2(enemy.Position.X, enemy.Top),
+                                    enemy.PointValue.ToString(), Color.Cornsilk, 1500));
                             }
-
-                            this.z_missles[i].returnToPool();
-                            this.z_missles.Remove(this.z_missles[i]);
+                            this.z_missiles[i].returnToPool();
+                            this.z_missiles.RemoveAt(i);
                             i--;
                             if (i < 0)
                                 break;
@@ -151,8 +139,6 @@ namespace Space_Cats_V1._2
                         }
                     }
                 }
-
-
             }
         }
 
@@ -160,7 +146,7 @@ namespace Space_Cats_V1._2
         public void MissleManagerDrawAllMissles(SpriteBatch spriteBatch, GameTime gameTime)
         {
             //That means there is something to draw in the missle list
-            foreach (MissileObject missle in this.z_missles)
+            foreach (MissileObject missle in this.z_missiles)
             {
                 missle.Draw(spriteBatch, gameTime);
             }
@@ -168,9 +154,9 @@ namespace Space_Cats_V1._2
 
         public void reset()
         {
-            foreach (MissileObject missile in z_missles)
+            foreach (MissileObject missile in z_missiles)
                 missile.returnToPool();
-            this.z_missles.Clear();
+            this.z_missiles.Clear();
         }
 
     }

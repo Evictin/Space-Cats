@@ -24,19 +24,27 @@ namespace Space_Cats_V1._2
         private static SoundEffect zs_sound;
         private static Rectangle zs_viewport;
         private static PlayerShip zs_playerShip;
+        private static Texture2D zs_explosionSprite;
         public Rectangle Viewport
         { set { zs_viewport = value; } }
+        public Texture2D ExplosionImage
+        {
+            get { return zs_explosionSprite; }
+            set { zs_explosionSprite = value; }
+        }
 
         //Constructor - this is private to force ppl to call the static function
         private EnemySimpleBullet()
             : base(zs_image)
         {
-            this.Velocity = Vector2.UnitY * 5;
+            this.Velocity = Vector2.UnitY;
             this.Speed = 5;
             this.IsKillerObject = true;
             this.IsPickUp = false;
             this.CanTakeDamage = false;
             this.Damage = 100;
+            this.HasPool = true;
+            DrawDepth = .9f;
         }
 
         //Accessors
@@ -49,7 +57,7 @@ namespace Space_Cats_V1._2
         {
             zs_pool = new List<EnemySimpleBullet>();
             zs_sound = content.Load<SoundEffect>("Content\\Audio\\SoundFX\\LaserPellet");
-            zs_image = content.Load<Texture2D>("Content\\Images\\Ball1");
+            zs_image = content.Load<Texture2D>("Content\\Images\\Missiles\\EnemyBulletRed");
             zs_playerShip = PlayerShip.getInstance();
             zs_viewport = viewport;
 
@@ -73,12 +81,11 @@ namespace Space_Cats_V1._2
             }
             bullet = zs_pool[zs_pool.Count - 1];
             zs_pool.RemoveAt(zs_pool.Count - 1);
-            
             // set the bullet parameters
             bullet.Position = startLocation;
             
             // play the bullet launch sound and exit
-            zs_sound.Play(.2f,0,0);
+            zs_sound.Play(.2f,0f,0);
             return bullet;
         }
 
@@ -91,18 +98,17 @@ namespace Space_Cats_V1._2
 
         public override void AIUpdate(GameTime gameTime)
         {
-            if (!zs_viewport.Contains((int)Position.X, (int)Position.Y))
+            if (this.Top > zs_viewport.Height)
             {
                 this.IsAlive = false;
                 return;
             }
-            this.upDatePosition();
+            this.upDatePositionWithSpeed();
         }
 
         override public void reset()
         {
             this.IsAlive = true;
-            this.Health = -1;
         }
     }
 }

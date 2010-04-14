@@ -336,5 +336,17 @@ C:\Users\Jesse\Documents\codeDemon-Space-Cat-Presentation-d2\codeDemon-Space-Cat
 C:\Users\Jesse\Documents\codeDemon-Space-Cat-Presentation-d2\codeDemon-Space-Cat-Presentation-d1444e7\Space Cats V1.2\bin\x86\Debug\Content\Textures\Starscape4.xnb
 C:\Users\Jesse\Documents\codeDemon-Space-Cat-Presentation-d2\codeDemon-Space-Cat-Presentation-d1444e7\Space Cats V1.2\bin\x86\Debug\AI\Enemy1Path.ai
 C:\Users\Jesse\Documents\codeDemon-Space-Cat-Presentation-d2\codeDemon-Space-Cat-Presentation-d1444e7\Space Cats V1.2\bin\x86\Debug\AI\Mission 2.msn
-C:\Users\Jesse\Documents\codeDemon-Space-Cat-Presentation-d2\codeDemon-Space-Cat-Presentation-d1444e7\Space Cats V1.2\bin\x86\Debug\Content\Images\Ball1.xnb
-C:\Users\Jesse\Documents\codeDemon-Space-Cat-Presentation-d2\codeDemon-Space-Cat-Presentation-d1444e7\Space Cats V1.2\bin\x86\Debug\Content\Images\Ball1.png
+C:\Users\Jesse\Documents\codeDemon-Space-Cat-Presentation-d2\codeDemon-Space-Cat-Presentation-d1444e7\Space Cats V1.2\bin\x86\Debug\Content\Images\Asteroids\Explosion.xnb
+C:\Users\Jesse\Documents\codeDemon-Space-Cat-Presentation-d2\codeDemon-Space-Cat-Presentation-d1444e7\Space Cats V1.2\bin\x86\Debug\Content\Images\Missiles\PlayerBulletBlue.xnb
+C:\Users\Jesse\Documents\codeDemon-Space-Cat-Presentation-d2\codeDemon-Space-Cat-Presentation-d1444e7\Space Cats V1.2\bin\x86\Debug\Content\Images\Missiles\EnemyBulletRed.xnb
+C:\Users\Jesse\Documents\codeDemon-Space-Cat-Presentation-d2\codeDemon-Space-Cat-Presentation-d1444e7\Space Cats V1.2\bin\x86\Debug\Content\Images\Asteroids\LargeCrackedRock.xnb
+C:\Users\Jesse\Documents\codeDemon-Space-Cat-Presentation-d2\codeDemon-Space-Cat-Presentation-d1444e7\Space Cats V1.2\bin\x86\Debug\Content\Images\Asteroids\LargeDirtRock.xnb
+C:\Users\Jesse\Documents\codeDemon-Space-Cat-Presentation-d2\codeDemon-Space-Cat-Presentation-d1444e7\Space Cats V1.2\bin\x86\Debug\Content\Images\Asteroids\MedDirtRock1.xnb
+C:\Users\Jesse\Documents\codeDemon-Space-Cat-Presentation-d2\codeDemon-Space-Cat-Presentation-d1444e7\Space Cats V1.2\bin\x86\Debug\Content\Images\Asteroids\MedDirtRock2.xnb
+C:\Users\Jesse\Documents\codeDemon-Space-Cat-Presentation-d2\codeDemon-Space-Cat-Presentation-d1444e7\Space Cats V1.2\bin\x86\Debug\Content\Images\Asteroids\MedDirtRock3.xnb
+C:\Users\Jesse\Documents\codeDemon-Space-Cat-Presentation-d2\codeDemon-Space-Cat-Presentation-d1444e7\Space Cats V1.2\bin\x86\Debug\Content\Images\Asteroids\MedDirtRock4.xnb
+C:\Users\Jesse\Documents\codeDemon-Space-Cat-Presentation-d2\codeDemon-Space-Cat-Presentation-d1444e7\Space Cats V1.2\bin\x86\Debug\Content\Images\Asteroids\SmallDirtRock1.xnb
+C:\Users\Jesse\Documents\codeDemon-Space-Cat-Presentation-d2\codeDemon-Space-Cat-Presentation-d1444e7\Space Cats V1.2\bin\x86\Debug\Content\Images\Asteroids\SmallDirtRock2.xnb
+C:\Users\Jesse\Documents\codeDemon-Space-Cat-Presentation-d2\codeDemon-Space-Cat-Presentation-d1444e7\Space Cats V1.2\bin\x86\Debug\Content\Images\Asteroids\SmallDirtRock3.xnb
+C:\Users\Jesse\Documents\codeDemon-Space-Cat-Presentation-d2\codeDemon-Space-Cat-Presentation-d1444e7\Space Cats V1.2\bin\x86\Debug\Content\Images\Asteroids\SmallDirtRock4.xnb
+C:\Users\Jesse\Documents\codeDemon-Space-Cat-Presentation-d2\codeDemon-Space-Cat-Presentation-d1444e7\Space Cats V1.2\bin\x86\Debug\AI\Mission 3.msn

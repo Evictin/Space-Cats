@@ -294,6 +294,7 @@ namespace Space_Cats_V1._2
                                         {
                                             case MissionScreen.MissionMenuState.Mission1:
                                                 {
+                                                    MissionManager.GetInstance().LoadMission(1);
                                                     this.z_currentGameState = GameState.PlayingGame;
 
                                                     break;

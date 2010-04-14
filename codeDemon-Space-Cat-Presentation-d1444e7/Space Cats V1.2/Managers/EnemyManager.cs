@@ -23,7 +23,7 @@ namespace Space_Cats_V1._2
          * multiple waves to spawn at the same time.
          * */
         //Instance Variables
-        private List<IEnemyShip> z_enemyShips;
+        private static List<IEnemyShip> z_enemyShips;
         private ContentManager z_content;
         private SpriteBatch z_spriteBatch;
         private Rectangle z_viewPort;
@@ -55,88 +55,35 @@ namespace Space_Cats_V1._2
         //Constructor
         private EnemyManager(ContentManager content, SpriteBatch spriteBatch, Rectangle viewPort)
         {
-            BinaryReader br;
-            string input;
-            int fileID;
-            Rectangle fileViewport = new Rectangle(0,0,0,0);
             if (z_instance == null)
                 z_instance = this;
 
-            this.z_enemyShips = new List<IEnemyShip>();
+            z_enemyShips = new List<IEnemyShip>();
             this.z_content = content;
             this.z_spriteBatch = spriteBatch;
             this.z_viewPort = viewPort;
-            this.z_ActivateE1W1 = false;
             this.z_counter = 0;
             this.z_interval = 0;
             this.z_EnemiesSpawn = 0;
 
-            this.z_AIList = new List<IArtificialIntelligence>();
-            br = new BinaryReader(File.OpenRead(content.RootDirectory + "\\AI\\Mission 2.msn"));
-            try
-            {
-                fileID = br.ReadInt32();
-                if (fileID == 12)
-                {
-                    fileViewport.Width = br.ReadInt32();
-                    fileViewport.Height = br.ReadInt32();
-                    do
-                    {
-                        input = br.ReadString();
-                        if (input.CompareTo("AI_SCRIPT") == 0)
-                        {
-                            z_AIList.Add(new AI_Script(fileViewport, br));
-                        }
-                    } while (input.CompareTo("EOF") != 0);
-                }
-            }
-            finally
-            {
-                br.Close();
-            }
-
             // Initialize the enemy1 pool
             Enemy1.Initialize(this.z_content);
             EnemySimpleBullet.Initialize(this.z_content, this.z_viewPort);
+            Asteroid.Initialize(this.z_content, Asteroid.AsteroidDensity.None);
+            Explosion.Initialize();
         }
 
        
-        //Accessors
-        public List<IEnemyShip> getEnemiesList()
+        // Accessors
+        public static List<IEnemyShip> getEnemiesList()
         {
-            return this.z_enemyShips;
+            return z_enemyShips;
         }
  
-        public bool getE1W1()
-        {
-            return this.z_ActivateE1W1;
-        }
-
         //Mutators
-        public void setE1W1(bool set)
+        public static void AddEnemy(IEnemyShip enemy)
         {
-            this.z_ActivateE1W1 = set;
-        }
-
-        //Populate three enemy1
-        private void populateEnemy1Wave1(GameTime gameTime)
-        {
-            IEnemyShip enemy;
-            this.z_interval += (float)gameTime.ElapsedGameTime.Milliseconds;
-            if (this.z_interval >= 600)
-            {
-                if (this.z_EnemiesSpawn < z_AIList.Count)
-                {
-                    z_enemyShips.Add(Enemy1.getNewEnemy(z_AIList[z_EnemiesSpawn % z_AIList.Count]));
-                    this.z_EnemiesSpawn++;
-                }
-                else
-                {
-                    this.z_EnemiesSpawn = 0;
-                    this.z_ActivateE1W1 = false;
-                }
-                this.z_interval = 0;
-            }
+            z_enemyShips.Add(enemy);
         }
 
         //Update all Enemies in the list method
@@ -144,40 +91,30 @@ namespace Space_Cats_V1._2
         {
             this.z_counter += (float)gameTime.ElapsedGameTime.Milliseconds;
 
-            //if (z_enemyShips.Count<3)
-            //    this.z_ActivateE1W1 = true;
-            if (this.z_counter > 5000)
+            for (int i = 0; i< z_enemyShips.Count;i++)
             {
-                this.z_ActivateE1W1 = true;
-                this.z_counter = 0;
-            }
-
-            for (int i = 0; i< this.z_enemyShips.Count;i++)
-            {
-                this.z_enemyShips[i].AIUpdate(gameTime);
-                if (!this.z_enemyShips[i].IsAlive)
+                z_enemyShips[i].AIUpdate(gameTime);
+                if (!z_enemyShips[i].IsAlive)
                 {   
-                    this.z_enemyShips[i].returnToPool();
-                    this.z_enemyShips.RemoveAt(i);
+                    z_enemyShips[i].returnToPool();
+                    z_enemyShips.RemoveAt(i);
                 }
             }
 
-            for (int i = 0; i < this.z_enemyShips.Count; i++)
+            for (int i = 0; i < z_enemyShips.Count; i++)
             {
                 //Check for collision with player ship
                 if (!this.playerShip.IsInvincible &&
-                    this.z_enemyShips[i].HitCircle.Intersects(playerShip.HitCircle))
+                    z_enemyShips[i].HitCircle.Intersects(playerShip.HitCircle))
                 {
                     // a collision will reduce the enemies health to zero
-                    this.z_enemyShips[i].reduceHealth(this.z_enemyShips[i].Health);
+                    z_enemyShips[i].Health=0;
+                    if (z_enemyShips[i] is IExplodable)
+                        ((IExplodable)z_enemyShips[i]).SpawnExplosion();
                     // but will reduce the players life by the amount damage the enemy deals (it could be a missile, etc)
-                    this.playerShip.Health -= this.z_enemyShips[i].Damage;
+                    this.playerShip.Health -= z_enemyShips[i].Damage;
                 }
             }
-
-            if (this.z_ActivateE1W1)
-                this.populateEnemy1Wave1(gameTime);
-
         }
 
         //Draw Method
@@ -189,24 +126,19 @@ namespace Space_Cats_V1._2
 
         static public int totalEnemyCount()
         {
-            return z_instance.z_enemyShips.Count;
-        }
-
-        public void spawnEnemy(IEnemyShip enemy)
-        {
-            this.z_enemyShips.Add(enemy);
+            return z_enemyShips.Count;
         }
 
         //Main reset
         public void resetAllEnemies()
         {
-            while (this.z_enemyShips.Count>0)
+            Asteroid.Density = Asteroid.AsteroidDensity.None;
+            while (z_enemyShips.Count>0)
             {
                 z_enemyShips[0].returnToPool();
                 z_enemyShips.RemoveAt(0);
             }
             this.z_ActivateE1W1 = false;
-            this.z_EnemiesSpawn = 0;
         }
     }
 }

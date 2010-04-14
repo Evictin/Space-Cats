@@ -26,6 +26,10 @@ namespace Space_Cats_V1._2
         Clockwise, Counter_Clockwise
     }
 
+    public interface IAI_HasNoLocation
+    {
+    }
+
     public class AI_ScriptNode
     {
         #region Node ID Constants
@@ -47,8 +51,15 @@ namespace Space_Cats_V1._2
         protected int z_command;
         protected Vector2 z_location;
         protected float z_speed;
-        public const float CIRCLE_DIRECTION_CW = 1.0f;
-        public const float CIRCLE_DIRECTION_CCW = -1.0f;
+        public const float CIRCLE_DIRECTION_CW = -1.0f;
+        public const float CIRCLE_DIRECTION_CCW = 1.0f;
+
+        [Browsable(false)]
+        virtual public Vector2 Location
+        {
+            get { return z_location; }
+            set { z_location = value; }
+        }
 
         public AI_ScriptNode()
         {
@@ -154,7 +165,7 @@ namespace Space_Cats_V1._2
                 case ID_STAGE_POINT_TO_POINT:
                     return new AI_StagePointToPoint(new Vector2(br.ReadSingle(), br.ReadSingle()), br.ReadSingle());
                 case ID_STAGE_CIRCLE:
-                    return new AI_StageCircle(br.ReadSingle(), br.ReadSingle(), br.ReadSingle());
+                    return new AI_StageCircle(br.ReadSingle(), br.ReadSingle(), br.ReadSingle(), br.ReadSingle());
             }
             return null;
         }
@@ -210,8 +221,8 @@ namespace Space_Cats_V1._2
             }
             else if (lines[0].CompareTo("STAGE_CIRCLE") == 0)
             {
-                return new AI_StageCircle(float.Parse(lines[1]), float.Parse(lines[2]), 
-                    (lines[3].CompareTo("CCW")==0?CIRCLE_DIRECTION_CCW:CIRCLE_DIRECTION_CW));
+                return new AI_StageCircle(float.Parse(lines[1]), float.Parse(lines[2]),
+                    (lines[3].CompareTo("CCW") == 0 ? CIRCLE_DIRECTION_CCW : CIRCLE_DIRECTION_CW), float.Parse(lines[4]));
             }
             return null;
         }
@@ -225,8 +236,8 @@ namespace Space_Cats_V1._2
     class AI_StartPoint : AI_ScriptNode
     {
         #region Public Properties
-        [Description("The location to start the script.")]
-        public Vector2 Location
+        [Browsable(true),Description("The location to start the script.")]
+        override public Vector2 Location
         {
             get { return z_location; }
             set { z_location = value; }
@@ -267,7 +278,7 @@ namespace Space_Cats_V1._2
         }
     }
 
-    class AI_EndPoint : AI_ScriptNode
+    class AI_EndPoint : AI_ScriptNode, IAI_HasNoLocation
     {
         public AI_EndPoint()
             : base(Vector2.Zero, 0) 
@@ -296,13 +307,13 @@ namespace Space_Cats_V1._2
         }
     }
 
-    class AI_Reset : AI_ScriptNode
+    class AI_Reset : AI_ScriptNode, IAI_HasNoLocation
     {
         private int z_count;
         private int z_maxResets;
 
         #region Public Properties
-        [Description("The number of times to reset the AI.\nSet to -1 to reset indefinitely.")]
+        [Browsable(true),Description("The number of times to reset the AI.\nSet to -1 to reset indefinitely.")]
         public int MaxResets
         {
             get { return z_maxResets; }
@@ -361,8 +372,8 @@ namespace Space_Cats_V1._2
     class AI_JumpTo : AI_ScriptNode
     {
         #region Public Properties
-        [Description("The location to jump to.")]
-        public Vector2 Location
+        [Browsable(true),Description("The location to jump to.")]
+        override public Vector2 Location
         {
             get { return z_location; }
             set { z_location = value; }
@@ -406,8 +417,8 @@ namespace Space_Cats_V1._2
     class AI_MoveTo : AI_ScriptNode
     {
         #region Public Properties
-        [Description("The location to move to.")]
-        public Vector2 Location
+        [Browsable(true),Description("The location to move to.")]
+        override public Vector2 Location
         {
             get { return z_location; }
             set { z_location = value; }
@@ -458,8 +469,8 @@ namespace Space_Cats_V1._2
         private float z_DY;
 
         #region Public Properties
-        [Description("The location to move to.")]
-        public Vector2 Location
+        [Browsable(true),Description("The location to move to.")]
+        override public Vector2 Location
         {
             get { return z_location; }
             set { z_location = value; }
@@ -545,7 +556,7 @@ namespace Space_Cats_V1._2
 
     }
 
-    class AI_Kamikaze : AI_ScriptNode
+    class AI_Kamikaze : AI_ScriptNode, IAI_HasNoLocation
     {
         #region Public Properties
         [Description("The speed at which to dive bomb the player.")]
@@ -603,11 +614,11 @@ namespace Space_Cats_V1._2
 
         public override string ToString()
         {
-            return string.Format("Kamimaze Speed:{0}", z_speed);
+            return string.Format("Kamikaze Speed:{0}", z_speed);
         }
     }
 
-    class AI_Wait : AI_ScriptNode
+    class AI_Wait : AI_ScriptNode, IAI_HasNoLocation
     {
         private double z_Time;
         private double z_runTilTime;
@@ -727,7 +738,7 @@ namespace Space_Cats_V1._2
 
     }
 
-    class AI_StageHorizontal : AI_Stage
+    class AI_StageHorizontal : AI_Stage, IAI_HasNoLocation
     {
         #region Public Properties
         [Description("The distance to swing back and forth.")]
@@ -794,11 +805,10 @@ namespace Space_Cats_V1._2
     {
         private Vector2 z_midPoint;
         private float z_dx, z_dy;
-        private double z_startTime, z_swingTime;
 
         #region Public Properties
-        [Description("The location to swing between.")]
-        public Vector2 Location
+        [Browsable(true), Description("The location to swing between.")]
+        override public Vector2 Location
         {
             get { return z_location; }
             set { z_location = value; }
@@ -816,6 +826,7 @@ namespace Space_Cats_V1._2
         {
             z_midPoint = Vector2.Zero;
             z_command = AI_ScriptNode.ID_STAGE_POINT_TO_POINT;
+            z_dAngle = 0;
         }
 
         public AI_StagePointToPoint(AI_StagePointToPoint node)
@@ -837,40 +848,36 @@ namespace Space_Cats_V1._2
             z_midPoint.Y *= scaleY;
         }
 
-        public Vector2 CreateVectorAtTime(Vector2 currentPosition, GameTime gameTime)
+        public override Vector2 CreateVectorFrom(Vector2 start)
         {
             Vector2 retVector;
-            // if not started, then start
-             if (z_startTime == 0)
+
+            // if we don't have a midpoint yet, create one
+            if (z_midPoint == Vector2.Zero)
             {
-                // if we don't have a midpoint yet, create one
-                if (z_midPoint == Vector2.Zero)
-                {
-                    z_midPoint = Vector2.Lerp(currentPosition, z_location, 0.5f);
-                    z_dx = z_midPoint.X - currentPosition.X;
-                    z_dy = z_midPoint.Y - currentPosition.Y;
-                }
-                // travel to the midpoint of the zone first
-                if (Vector2.Distance(currentPosition, z_midPoint) > z_speed)
-                {
-                    retVector = z_midPoint - currentPosition;
-                    retVector.Normalize();
-                    return retVector * z_speed;
-                }
-                // we are at the midpoint, so go ahead and start it up
-                z_startTime = gameTime.TotalGameTime.TotalMilliseconds;
-                return Vector2.Zero;
+                z_midPoint = Vector2.Lerp(start, z_location, 0.5f);
+                z_dx = z_midPoint.X - start.X;
+                z_dy = z_midPoint.Y - start.Y;
+                z_swingDistance = Vector2.Distance(z_midPoint,z_location);
+                z_dAngle = (float)z_speed / (float)z_swingDistance;
+                z_angle = 0;
             }
-            
-            double percentage = ((gameTime.TotalGameTime.TotalMilliseconds - z_startTime) % z_swingTime) / z_swingTime;
-            return new Vector2(z_midPoint.X + (float) Math.Sin(2 * Math.PI * percentage) * z_dx,
-                z_midPoint.Y + (float)Math.Sin(2 * Math.PI * percentage) * z_dy) - currentPosition;
+            // travel to the midpoint of the zone first
+            if ((z_angle==0)&&(Vector2.Distance(start, z_midPoint) > z_speed))
+            {
+                retVector = z_midPoint - start;
+                retVector.Normalize();
+                return retVector * z_speed;
+            }
+            z_angle += z_dAngle;
+            return new Vector2(z_midPoint.X + (float)Math.Sin(z_angle) * z_dx, z_midPoint.Y + (float)Math.Sin(z_angle) * z_dy) - start;
         }
 
         public override void reset()
         {
             base.reset();
             z_midPoint = Vector2.Zero;
+            z_angle = 0;
         }
 
         public override void writeNodeToFile(BinaryWriter bw)
@@ -887,7 +894,7 @@ namespace Space_Cats_V1._2
         }
     }
 
-    class AI_StageVertical : AI_Stage
+    class AI_StageVertical : AI_Stage, IAI_HasNoLocation
     {
         #region Public Properties
         [Description("The distance to swing up and down.")]
@@ -950,15 +957,26 @@ namespace Space_Cats_V1._2
         }
     }
 
-    class AI_StageCircle : AI_Stage
+    class AI_StageCircle : AI_Stage, IAI_HasNoLocation
     {
         private float z_direction;
+        private float z_startAngle;
+
         #region Public Properties
         [Description("The radius of the circle to swing around.")]
         public float Radius
         {
             get { return z_swingDistance; }
             set { z_swingDistance = value; }
+        }
+        [Description("The angle at which to start rotation.")]
+        public float StartAngle
+        {
+            get { return z_startAngle * 180 / MathHelper.Pi; }
+            set
+            {
+                z_startAngle = z_angle = value * MathHelper.Pi / 180;
+            }
         }
         [Description("The speed at which to swing around.")]
         public float Speed
@@ -982,16 +1000,16 @@ namespace Space_Cats_V1._2
         #endregion
 
 
-        public AI_StageCircle(float radius, float speed, float direction) 
+        public AI_StageCircle(float radius, float speed, float direction, float startAngle) 
             : base(Vector2.Zero, speed, radius)
         {
             z_direction = direction;
             z_command = AI_ScriptNode.ID_STAGE_CIRCLE;
-            z_angle = 0.0f;
+            z_angle = z_startAngle = startAngle;
         }
 
         public AI_StageCircle(AI_StageCircle node)
-            : this(node.z_swingDistance, node.z_speed, node.z_direction)
+            : this(node.z_swingDistance, node.z_speed, node.z_direction, node.z_startAngle)
         {
         }
 
@@ -1003,7 +1021,7 @@ namespace Space_Cats_V1._2
         override public void reset()
         {
             base.reset();
-            z_angle = 0.0f;
+            z_angle = z_startAngle;
         }
 
         public override void rescale(float scaleX, float scaleY)
@@ -1018,9 +1036,9 @@ namespace Space_Cats_V1._2
             Vector2 temp, retVector;
             if (z_location == Vector2.Zero)
                 z_location = start;
-            z_angle += (float)z_speed / (float)z_swingDistance;
-            temp = new Vector2(z_location.X + (float)Math.Cos(z_angle) * z_swingDistance * z_direction,
-                z_location.Y + (float)Math.Sin(z_angle) * z_swingDistance);
+            z_angle += (float)z_speed / (float)z_swingDistance * z_direction;
+            temp = new Vector2(z_location.X + (float)Math.Cos(z_angle) * z_swingDistance,
+                z_location.Y - (float)Math.Sin(z_angle) * z_swingDistance);
             retVector = temp - start;
             retVector.Normalize();
             return retVector * z_speed;
@@ -1032,6 +1050,7 @@ namespace Space_Cats_V1._2
             bw.Write(z_swingDistance);
             bw.Write(z_speed);
             bw.Write(z_direction);
+            bw.Write(z_startAngle);
         }
 
         public override string ToString()

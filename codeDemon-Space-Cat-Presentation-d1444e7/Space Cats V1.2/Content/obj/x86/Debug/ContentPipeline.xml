@@ -539,13 +539,121 @@
       <Time>2010-03-04T19:39:01.7597487-05:00</Time>
     </Item>
     <Item>
-      <Source>Images\Ball1.png</Source>
-      <Name>Images\Ball1</Name>
+      <Source>Images\Asteroids\Explosion.png</Source>
+      <Name>Images\Asteroids\Explosion</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Jesse\Documents\codeDemon-Space-Cat-Presentation-d2\codeDemon-Space-Cat-Presentation-d1444e7\Space Cats V1.2\bin\x86\Debug\Content\Images\Ball1.xnb</Output>
-      <Time>2010-02-18T23:03:18-05:00</Time>
+      <Output>C:\Users\Jesse\Documents\codeDemon-Space-Cat-Presentation-d2\codeDemon-Space-Cat-Presentation-d1444e7\Space Cats V1.2\bin\x86\Debug\Content\Images\Asteroids\Explosion.xnb</Output>
+      <Time>2010-03-25T22:14:45.2592-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Images\Missiles\PlayerBulletBlue.png</Source>
+      <Name>Images\Missiles\PlayerBulletBlue</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Jesse\Documents\codeDemon-Space-Cat-Presentation-d2\codeDemon-Space-Cat-Presentation-d1444e7\Space Cats V1.2\bin\x86\Debug\Content\Images\Missiles\PlayerBulletBlue.xnb</Output>
+      <Time>2010-03-25T21:44:44.2302-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Images\Missiles\EnemyBulletRed.png</Source>
+      <Name>Images\Missiles\EnemyBulletRed</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Jesse\Documents\codeDemon-Space-Cat-Presentation-d2\codeDemon-Space-Cat-Presentation-d1444e7\Space Cats V1.2\bin\x86\Debug\Content\Images\Missiles\EnemyBulletRed.xnb</Output>
+      <Time>2010-03-25T21:55:00.932-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Images\Asteroids\LargeCrackedRock.png</Source>
+      <Name>Images\Asteroids\LargeCrackedRock</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Jesse\Documents\codeDemon-Space-Cat-Presentation-d2\codeDemon-Space-Cat-Presentation-d1444e7\Space Cats V1.2\bin\x86\Debug\Content\Images\Asteroids\LargeCrackedRock.xnb</Output>
+      <Time>2010-03-29T20:32:40.882-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Images\Asteroids\LargeDirtRock.png</Source>
+      <Name>Images\Asteroids\LargeDirtRock</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Jesse\Documents\codeDemon-Space-Cat-Presentation-d2\codeDemon-Space-Cat-Presentation-d1444e7\Space Cats V1.2\bin\x86\Debug\Content\Images\Asteroids\LargeDirtRock.xnb</Output>
+      <Time>2010-03-29T20:32:43.8304-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Images\Asteroids\MedDirtRock1.png</Source>
+      <Name>Images\Asteroids\MedDirtRock1</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Jesse\Documents\codeDemon-Space-Cat-Presentation-d2\codeDemon-Space-Cat-Presentation-d1444e7\Space Cats V1.2\bin\x86\Debug\Content\Images\Asteroids\MedDirtRock1.xnb</Output>
+      <Time>2010-03-29T20:32:45.0316-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Images\Asteroids\MedDirtRock2.png</Source>
+      <Name>Images\Asteroids\MedDirtRock2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Jesse\Documents\codeDemon-Space-Cat-Presentation-d2\codeDemon-Space-Cat-Presentation-d1444e7\Space Cats V1.2\bin\x86\Debug\Content\Images\Asteroids\MedDirtRock2.xnb</Output>
+      <Time>2010-03-29T20:32:45.9364-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Images\Asteroids\MedDirtRock3.png</Source>
+      <Name>Images\Asteroids\MedDirtRock3</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Jesse\Documents\codeDemon-Space-Cat-Presentation-d2\codeDemon-Space-Cat-Presentation-d1444e7\Space Cats V1.2\bin\x86\Debug\Content\Images\Asteroids\MedDirtRock3.xnb</Output>
+      <Time>2010-03-29T20:32:46.8256-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Images\Asteroids\MedDirtRock4.png</Source>
+      <Name>Images\Asteroids\MedDirtRock4</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Jesse\Documents\codeDemon-Space-Cat-Presentation-d2\codeDemon-Space-Cat-Presentation-d1444e7\Space Cats V1.2\bin\x86\Debug\Content\Images\Asteroids\MedDirtRock4.xnb</Output>
+      <Time>2010-03-29T20:32:48.2764-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Images\Asteroids\SmallDirtRock1.png</Source>
+      <Name>Images\Asteroids\SmallDirtRock1</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Jesse\Documents\codeDemon-Space-Cat-Presentation-d2\codeDemon-Space-Cat-Presentation-d1444e7\Space Cats V1.2\bin\x86\Debug\Content\Images\Asteroids\SmallDirtRock1.xnb</Output>
+      <Time>2010-03-29T20:32:49.228-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Images\Asteroids\SmallDirtRock2.png</Source>
+      <Name>Images\Asteroids\SmallDirtRock2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Jesse\Documents\codeDemon-Space-Cat-Presentation-d2\codeDemon-Space-Cat-Presentation-d1444e7\Space Cats V1.2\bin\x86\Debug\Content\Images\Asteroids\SmallDirtRock2.xnb</Output>
+      <Time>2010-03-29T20:32:50.2888-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Images\Asteroids\SmallDirtRock3.png</Source>
+      <Name>Images\Asteroids\SmallDirtRock3</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Jesse\Documents\codeDemon-Space-Cat-Presentation-d2\codeDemon-Space-Cat-Presentation-d1444e7\Space Cats V1.2\bin\x86\Debug\Content\Images\Asteroids\SmallDirtRock3.xnb</Output>
+      <Time>2010-03-29T20:32:51.1624-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Images\Asteroids\SmallDirtRock4.png</Source>
+      <Name>Images\Asteroids\SmallDirtRock4</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Jesse\Documents\codeDemon-Space-Cat-Presentation-d2\codeDemon-Space-Cat-Presentation-d1444e7\Space Cats V1.2\bin\x86\Debug\Content\Images\Asteroids\SmallDirtRock4.xnb</Output>
+      <Time>2010-03-29T20:32:51.568-04:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>

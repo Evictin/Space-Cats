@@ -23,6 +23,7 @@ namespace Space_Cats_V1._2
         private static List<Enemy1> zs_pool;
         private static Texture2D zs_image;
         private static EnemyManager zs_enemyManager;
+        private static Texture2D zs_explosionSprite;
 
         //Constructor - this is private to force ppl to call the static function
         private Enemy1(Texture2D loadedSprite, IArtificialIntelligence ai)
@@ -31,11 +32,13 @@ namespace Space_Cats_V1._2
             this.IsKillerObject = true;
             this.IsPickUp = false;
             this.fireTime = 0;
-            this.fireCoolOff = 1000;
+            this.fireCoolOff = MathHelper.Lerp(1000, 5000, (float)RandomGen.NextDouble());
             this.PointValue = 100;
             this.Health = 100;
             this.Damage = 100000; // ensure that this will kill the player despite shields, etc
             this.CanTakeDamage = true;
+            DrawRotation = -MathHelper.PiOver2;
+            DrawDepth = .4f;
             if (ai != null)
             {
                 AI = ai;
@@ -46,14 +49,6 @@ namespace Space_Cats_V1._2
         //Accessors
 
         //Mutators
-        public override void reduceHealth(int amount)
-        {
-            base.reduceHealth(amount);
-            if (Health <= 0)
-            {
-                this.IsAlive = false;
-            }
-        }
 
         // This function initializes the internal pool and loads in the image to use to create all the 
         // 'Enemy1' type ships. It also creates a few enemies in the pool for fast retrieval.
@@ -99,25 +94,29 @@ namespace Space_Cats_V1._2
         
         public override void AIUpdate(GameTime gameTime)
         {
-            float time = (float)gameTime.TotalGameTime.TotalMilliseconds;
-            if (fireTime == 0)
-            {
-                this.fireCoolOff = MathHelper.Lerp(1000, 5000, (float)RandomGen.NextDouble());
-                fireTime = time + this.fireCoolOff;
-            }
-            if (time > fireTime)
-            {
-                fireTime = time + this.fireCoolOff;
-                zs_enemyManager.getEnemiesList().Add(EnemySimpleBullet.getNewBullet(this.Position));
-            }
-            this.fireCoolOff = MathHelper.Lerp(1000, 5000, (float)RandomGen.NextDouble());
             if (this.AI.okToRemove())
             {
                 this.IsAlive = false;
                 return;
             }
 
+            fireTime += gameTime.ElapsedGameTime.Milliseconds;
+            if (fireTime>=fireCoolOff)
+            {
+                EnemyManager.AddEnemy(EnemySimpleBullet.getNewBullet(this.Position));
+                fireCoolOff = MathHelper.Lerp(1000, 5000, (float)RandomGen.NextDouble());
+                fireTime = 0;
+            }
+
             this.Velocity = this.AI.calculateNewVelocity(this.Position, gameTime);
+            if (((AI_Script)AI).getScriptStatus() == AI_PathNodeStatus.STAGED)
+            {
+                DrawRotation = GameObject.AngleFromVector(PlayerShip.getInstance().Position - Position);
+            }
+            else
+            {
+                DrawRotation = Direction;
+            }
 
             this.upDatePosition();
         }
@@ -126,10 +125,10 @@ namespace Space_Cats_V1._2
         {
             this.Velocity = Vector2.Zero;
             this.Speed = 1f;
-            this.IsAlive = true;
             this.fireTime = 0;
-            this.fireCoolOff = 1000;
+            this.fireCoolOff = MathHelper.Lerp(1000, 5000, (float)RandomGen.NextDouble());
             this.AI.reset();
+            this.Health = 100;
             this.Position = AI.getStartingPosition();
         }
     }

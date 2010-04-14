@@ -16,7 +16,6 @@ C:\Users\Jesse\Documents\codeDemon-Space-Cat-Presentation-d2\codeDemon-Space-Cat
 C:\Users\Jesse\Documents\codeDemon-Space-Cat-Presentation-d2\codeDemon-Space-Cat-Presentation-d1444e7\Space Cats V1.2\bin\x86\Release\Content\Images\Asteroids\Asteroid4.xnb
 C:\Users\Jesse\Documents\codeDemon-Space-Cat-Presentation-d2\codeDemon-Space-Cat-Presentation-d1444e7\Space Cats V1.2\bin\x86\Release\Content\Images\Asteroids\Asteroid5.xnb
 C:\Users\Jesse\Documents\codeDemon-Space-Cat-Presentation-d2\codeDemon-Space-Cat-Presentation-d1444e7\Space Cats V1.2\bin\x86\Release\Content\Images\EnemyShips\EnemyShip1.xnb
-C:\Users\Jesse\Documents\codeDemon-Space-Cat-Presentation-d2\codeDemon-Space-Cat-Presentation-d1444e7\Space Cats V1.2\bin\x86\Release\Content\Images\Missles\Ball1.xnb
 C:\Users\Jesse\Documents\codeDemon-Space-Cat-Presentation-d2\codeDemon-Space-Cat-Presentation-d1444e7\Space Cats V1.2\bin\x86\Release\Content\Screens\ArrowSelection.xnb
 C:\Users\Jesse\Documents\codeDemon-Space-Cat-Presentation-d2\codeDemon-Space-Cat-Presentation-d1444e7\Space Cats V1.2\bin\x86\Release\Content\Screens\ConfirmationMenu.xnb
 C:\Users\Jesse\Documents\codeDemon-Space-Cat-Presentation-d2\codeDemon-Space-Cat-Presentation-d1444e7\Space Cats V1.2\bin\x86\Release\Content\Screens\GameOverScreen.xnb
@@ -70,3 +69,7 @@ C:\Users\Jesse\Documents\codeDemon-Space-Cat-Presentation-d2\codeDemon-Space-Cat
 C:\Users\Jesse\Documents\codeDemon-Space-Cat-Presentation-d2\codeDemon-Space-Cat-Presentation-d1444e7\Space Cats V1.2\obj\x86\Release\Microsoft.Xna.Framework.RuntimeProfile.txt
 C:\Users\Jesse\Documents\codeDemon-Space-Cat-Presentation-d2\codeDemon-Space-Cat-Presentation-d1444e7\Space Cats V1.2\obj\x86\Release\Space Cats V1.2.exe
 C:\Users\Jesse\Documents\codeDemon-Space-Cat-Presentation-d2\codeDemon-Space-Cat-Presentation-d1444e7\Space Cats V1.2\obj\x86\Release\Space Cats V1.2.pdb
+C:\Users\Jesse\Documents\codeDemon-Space-Cat-Presentation-d2\codeDemon-Space-Cat-Presentation-d1444e7\Space Cats V1.2\bin\x86\Release\AI\Enemy1Path.ai
+C:\Users\Jesse\Documents\codeDemon-Space-Cat-Presentation-d2\codeDemon-Space-Cat-Presentation-d1444e7\Space Cats V1.2\bin\x86\Release\AI\Mission 2.msn
+C:\Users\Jesse\Documents\codeDemon-Space-Cat-Presentation-d2\codeDemon-Space-Cat-Presentation-d1444e7\Space Cats V1.2\bin\x86\Release\Content\Images\Ball1.xnb
+C:\Users\Jesse\Documents\codeDemon-Space-Cat-Presentation-d2\codeDemon-Space-Cat-Presentation-d1444e7\Space Cats V1.2\bin\x86\Release\Content\Images\Ball1.png

@@ -28,12 +28,13 @@ namespace Space_Cats_V1._2
             this.Speed = 5;
             this.IsAlive = true;
             this.Damage = 100;
+            DrawDepth = .9f;
         }
         
         public static void Initialize(ContentManager content)
         {
             z_pool = new List<PlayerMissile1>();
-            zs_image = content.Load<Texture2D>("Content\\Images\\Ball1");
+            zs_image = content.Load<Texture2D>("Content\\Images\\Missiles\\PlayerBulletBlue");
             zs_fireSound = content.Load<SoundEffect>("Content\\Audio\\SoundFX\\LaserPellet");
 
             for (int i = 0; i < 20; i++)

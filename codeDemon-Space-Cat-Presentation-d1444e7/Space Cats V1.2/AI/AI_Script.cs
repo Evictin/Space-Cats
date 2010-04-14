@@ -37,6 +37,9 @@ namespace Space_Cats_V1._2
             get { return z_ID; }
             set { z_ID = value; }
         }
+        [Browsable(false)]
+        public List<AI_ScriptNode> Nodes
+        { get { return z_script; } }
         #endregion
 
         #region Constructors

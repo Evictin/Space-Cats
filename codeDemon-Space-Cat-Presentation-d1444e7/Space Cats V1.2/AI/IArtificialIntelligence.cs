@@ -16,6 +16,8 @@ namespace Space_Cats_V1._2
 {
     interface IArtificialIntelligence
     {
+        int ID
+        { get; set; }
         //Set the starting position of the enemy
         Vector2 getStartingPosition();
         //Return the new velocity for the enemy

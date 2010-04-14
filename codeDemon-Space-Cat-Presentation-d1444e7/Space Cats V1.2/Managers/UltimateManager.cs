@@ -22,17 +22,17 @@ namespace Space_Cats_V1._2
 
         //Declare all the manager classes
         //private AsteroidManager z_asteroidManager;
-        private AudioManager z_audioManager;
-        private CollisionManager z_collisionManager;
+        //private AudioManager z_audioManager;
+        //private CollisionManager z_collisionManager;
         //private EnemyManager z_enemyManager;
-        private EventManager z_eventManager;
+        //private EventManager z_eventManager;
         private GameStateManager z_gameStateManager;
-        private InputManager z_inputManager;
+        //private InputManager z_inputManager;
         private LoadingManager z_loadingManager;
-        private MissionManager z_missionManager;
+        //private MissionManager z_missionManager;
         //private MissleManager z_missleManager;
         //private ScrollingBackgroundManager z_scrollingBackgroundManager;
-        private StageManager z_stageManager;
+        //private StageManager z_stageManager;
 
         //Declare other Variables
         Game z_game;
